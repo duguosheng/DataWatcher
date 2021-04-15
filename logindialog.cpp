@@ -1,5 +1,7 @@
 #include "logindialog.h"
 #include "ui_logindialog.h"
+#include "common.h"
+#include <QDebug>
 
 LoginDialog::LoginDialog(QWidget *parent) :
     QDialog(parent),
@@ -14,26 +16,41 @@ LoginDialog::LoginDialog(QWidget *parent) :
 }
 
 LoginDialog::~LoginDialog() {
+    if (taos)
+        taos_close(taos);
+
     delete ui;
 }
 
 /**
- * @brief LoginDialog::CheckUserInfo 检查用户信息
- * @return 正确返回true，错误返回false
+ * @brief LoginDialog::ConnectTDengingServer 连接到TDengine服务端
+ * @return 连接成功返回true，连接失败返回false
  */
-bool LoginDialog::CheckUserInfo() {
-    if (ui->lineE_username->text() == "dgs" && ui->lineE_passwd->text() == "000")
+bool LoginDialog::ConnectTDengingServer() {
+    taos  = taos_connect("123.56.99.48",                            //IP地址
+                         QStringToChar(ui->lineE_username->text()), //用户名
+                         QStringToChar(ui->lineE_passwd->text()),   //密码
+                         "health",                                  //连接的数据库名
+                         6030);                                     //端口号
+
+    if (taos) {
+        SaveLog(tr("成功连接到服务器"));
         return true;
+    }
 
+    SaveLog(tr("登录失败"));
     ui->label_errorMsg->setStyleSheet("color:rgb(150,20,20)");
-    ui->label_errorMsg->setText(tr("用户名或密码错误！"));
-
+    ui->label_errorMsg->setText(tr("登录失败，请重试！"));
+    qDebug() << " ";
     return false;
 }
 
 void LoginDialog::on_pBtn_loginConfirm_clicked() {
-    //验证用户信息
-    if (CheckUserInfo())
+    ui->label_errorMsg->setStyleSheet("color:rgb(65,105,225)");
+    ui->label_errorMsg->setText(tr("正在登陆..."));
+    ui->label_errorMsg->repaint();
+
+    if (ConnectTDengingServer())
         accept();
 }
 

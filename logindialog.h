@@ -14,7 +14,7 @@ public:
     explicit LoginDialog(QWidget *parent = nullptr);
     ~LoginDialog();
     //检查用户信息
-    bool CheckUserInfo();
+    bool ConnectTDengingServer();
 
 private slots:
     void on_pBtn_loginConfirm_clicked();
