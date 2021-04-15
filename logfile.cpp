@@ -1,13 +1,9 @@
-#include "filesystem.h"
+#include "logfile.h"
 #include <QDateTime>
 #include <QTextStream>
 
-FileSystem::FileSystem() {}
-
-LogFile::LogFile() {
-    QDateTime dt;
-    InitLogDir();
-    logFile.setFileName(QString(logDir + "/run_" + dt.toString("yyyyMMddhhmmss") + ".log"));
+LogFile::LogFile(QObject *parent) : QObject(parent) {
+    InitLogSystem();
 }
 
 bool LogFile::OpenLogFile() {
@@ -21,15 +17,19 @@ void LogFile::CloseLogFile() {
     }
 }
 
-bool LogFile::InitLogDir() {
+bool LogFile::InitLogSystem() {
     logDir = QDir::currentPath() + "/log";
 
     if (!QDir().exists(logDir)) {
         if (!QDir().mkpath(logDir)) {
-            SaveLog(tr("创建日志存储目录失败!"));
+            emit logFailure(tr("创建日志存储目录失败!"));
             return false;
         }
     }
+
+    QDateTime dt;
+    logFileName = "dgs-" + dt.currentDateTime().toString("yyyy_MM_dd-hh_mm_ss") + ".log";
+    logFile.setFileName(logDir + "/" + logFileName);
 
     return true;
 }
@@ -38,8 +38,9 @@ void LogFile::SaveLog(const QString &log) {
     if (OpenLogFile()) {
         QDateTime dt;
         QTextStream out(&logFile);
-        out << "时间: " <<
-            dt.currentDateTime().toString("yyyy年MM月dd日hh时mm分ss秒")
+
+        out << tr("时间: ") <<
+            dt.currentDateTime().toString(tr("yyyy年MM月dd日hh时mm分ss秒"))
             << " " << log << endl;
         CloseLogFile();
     }

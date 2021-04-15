@@ -4,7 +4,7 @@
 #include <taos.h>
 #include <taoserror.h>
 #include <QObject>
-#include "filesystem.h"
+#include "logfile.h"
 
 extern TAOS *taos;
 extern LogFile *log;

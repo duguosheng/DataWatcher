@@ -10,14 +10,14 @@ CONFIG += c++11
 
 SOURCES += \
     common.cpp \
-    filesystem.cpp \
+    logfile.cpp \
     logindialog.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     common.h \
-    filesystem.h \
+    logfile.h \
     logindialog.h \
     mainwindow.h
 

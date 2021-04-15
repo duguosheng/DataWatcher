@@ -16,8 +16,13 @@ LoginDialog::LoginDialog(QWidget *parent) :
 }
 
 LoginDialog::~LoginDialog() {
-    if (taos)
+    if (taos) {
         taos_close(taos);
+        taos_cleanup();
+    }
+
+    if (log)
+        delete log;
 
     delete ui;
 }
