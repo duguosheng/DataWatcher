@@ -8,10 +8,11 @@ public:
     FileSystem();
 };
 
-class LogFile : public QObject {
+class LogFile  {
 private:
     QString logDir;    //日志存储路径
-    QFile logFile;//日志文件
+    QString logFileName;//日志文件名
+    QFile *logFile;//日志文件
 
 public:
     LogFile();
