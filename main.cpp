@@ -7,8 +7,6 @@
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
-
-    log = new LogFile;
     SaveLog(QObject::tr("程序启动"));
 
     //登陆界面
@@ -16,6 +14,7 @@ int main(int argc, char *argv[]) {
 
     //验证用户信息
     if (loginDlg.exec() == QDialog::Accepted) {
+        //登陆成功，关闭登陆界面，开启主界面
         MainWindow w;
         w.show();
         return a.exec();

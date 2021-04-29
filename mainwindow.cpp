@@ -10,16 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() {
-    qDebug() << "close main window";
-
-    if (taos) {
-        taos_close(taos);
-        taos_cleanup();
-    }
-
-    if (log)
-        delete log;
-
+    ProgramExit();
     delete ui;
 }
 

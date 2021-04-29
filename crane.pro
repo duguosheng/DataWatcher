@@ -13,13 +13,15 @@ SOURCES += \
     logfile.cpp \
     logindialog.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    tdenginedb.cpp
 
 HEADERS += \
     common.h \
     logfile.h \
     logindialog.h \
-    mainwindow.h
+    mainwindow.h \
+    tdenginedb.h
 
 FORMS += \
     logindialog.ui \
@@ -37,3 +39,5 @@ LIBS += -LC:/TDengine/driver/ -ltaos
 
 INCLUDEPATH += C:/TDengine/include
 DEPENDPATH += C:/TDengine/include
+
+RC_ICONS = crane.ico

@@ -10,6 +10,7 @@ extern TAOS *taos;
 extern LogFile *log;
 
 const char *QStringToChar(const QString &qstr);
-void SaveLog(const QString &logString) ;
+void SaveLog(const QString &logString);
+void ProgramExit();
 
 #endif // COMMON_H
