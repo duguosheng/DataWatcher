@@ -23,11 +23,11 @@ private slots:
 
     void on_cBox_saveUserInfo_stateChanged(int arg1);
 
+    void on_pBtn_cancel_clicked();
+
 private:
     Ui::SettingsDialog *ui;
     void InitDialog();
 };
-
-void InitSettings();
 
 #endif // SETTINGSDIALOG_H

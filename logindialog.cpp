@@ -47,7 +47,6 @@ bool LoginDialog::ConnectTDengingServer() {
     SaveLog(tr("登录失败"));
     ui->label_errorMsg->setStyleSheet("color:rgb(150,20,20)");
     ui->label_errorMsg->setText(tr("登录失败，请重试！"));
-    qDebug() << " ";
     return false;
 }
 

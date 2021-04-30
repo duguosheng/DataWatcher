@@ -6,57 +6,6 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QDebug>
-/**
- * @brief InitSettings 初始化系统配置
- */
-void InitSettings() {
-    //所有系统都以ini文件方式创建设置对象
-    setting = new QSettings(QSettings::IniFormat, QSettings::UserScope,
-                            "DuGuosheng", "Crane");
-
-    //写入初始值
-    setting->beginGroup("FileManage");
-    if (!setting->contains("logDir"))
-        setting->setValue("logDir", QDir::currentPath() + "/log");
-    setting->endGroup();
-
-    setting->beginGroup("TDengine");
-    if (!setting->contains("ipaddr"))
-        setting->setValue("ipaddr", "1.15.111.120");
-    if (!setting->contains("port"))
-        setting->setValue("port", 6030);
-    if (!setting->contains("dbname"))
-        setting->setValue("dbname", "health_status");
-    setting->endGroup();
-
-    setting->beginGroup("Login");
-    if (!setting->contains("saveuserinfo"))
-        setting->setValue("saveuserinfo", false);
-    if (!setting->contains("username"))
-        setting->setValue("username", QString());
-    if (!setting->contains("passwd"))
-        setting->setValue("passwd", QString());
-    setting->endGroup();
-
-
-    //读取配置
-    setting->beginGroup("FileManage");
-    log = new LogFile(setting->value("logDir", QDir::currentPath() + "/log").toString());
-    setting->endGroup();
-
-    setting->beginGroup("TDengine");
-    dbinfo.ip = setting->value("ipaddr", "1.15.111.120").toString();
-    dbinfo.port = setting->value("port", 6030).toUInt();
-    dbinfo.dbName = setting->value("dbname", "health_status").toString();
-    setting->endGroup();
-
-    setting->beginGroup("Login");
-    if (setting->value("saveuserinfo", false).toBool()) {
-        dbinfo.userName = setting->value("username", QString()).toString();
-        dbinfo.passwd = setting->value("passwd", QString()).toString();
-    }
-    setting->endGroup();
-}
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent),
@@ -69,23 +18,28 @@ SettingsDialog::~SettingsDialog() {
     delete ui;
 }
 
+/**
+ * @brief SettingsDialog::on_pBtn_LogDir_clicked 槽函数：更改日志存放目录
+ */
 void SettingsDialog::on_pBtn_LogDir_clicked() {
     QString dir = QFileDialog::getExistingDirectory();
-    setting->setValue("FileManage/logDir", dir);
+    setting->setValue("System/logDir", dir);
     ui->lineE_logDir->setText(dir);
 }
 
+/**
+ * @brief SettingsDialog::InitDialog 初始化偏好设置界面
+ */
 void SettingsDialog::InitDialog() {
-    setting->beginGroup("FileManage");
+    setting->beginGroup("System");
+    if (setting->value("autostart", false).toBool())
+        ui->cBox_autostart->setCheckState(Qt::Checked);
+    else
+        ui->cBox_autostart->setCheckState(Qt::Unchecked);
     ui->lineE_logDir->setText(setting->value("logDir", QDir::currentPath() + "/log").toString());
     setting->endGroup();
 
-    setting->beginGroup("TDengine");
-    ui->lineE_ipaddr->setText(setting->value("ipaddr", "1.15.111.120").toString());
-    ui->lineE_port->setText(setting->value("port", 6030).toString());
-    ui->lineE_dbName->setText(setting->value("dbname", "health_status").toString());
-    setting->endGroup();
-
+    ui->lineE_passwd->setEchoMode(QLineEdit::Password);
     setting->beginGroup("Login");
     if (setting->value("saveuserinfo", false).toBool())
         ui->cBox_saveUserInfo->setCheckState(Qt::Checked);
@@ -96,21 +50,40 @@ void SettingsDialog::InitDialog() {
         ui->lineE_userName->setText(setting->value("username", QString()).toString());
         ui->lineE_passwd->setText(setting->value("passwd", QString()).toString());
     } else {
+        ui->label_userName->setEnabled(false);
         ui->lineE_userName->setEnabled(false);
+        ui->label_passwd->setEnabled(false);
         ui->lineE_passwd->setEnabled(false);
     }
     setting->endGroup();
+
+    setting->beginGroup("TDengine");
+    ui->lineE_ipaddr->setText(setting->value("ipaddr", "1.15.111.120").toString());
+    ui->lineE_port->setText(setting->value("port", 6030).toString());
+    ui->lineE_dbName->setText(setting->value("dbname", "health_status").toString());
+    setting->endGroup();
+
+    setting->beginGroup("Grafana");
+    ui->lineE_gIpaddr->setText(setting->value("ipaddr", "1.15.111.120").toString());
+    ui->lineE_gPort->setText(setting->value("port", 3000).toString());
+    setting->endGroup();
+
+    setting->beginGroup("AlertManager");
+    ui->lineE_aIpaddr->setText(setting->value("ipaddr", "1.15.111.120").toString());
+    ui->lineE_aRulePort->setText(setting->value("ruleport", 8100).toString());
+    ui->lineE_aAlertPort->setText(setting->value("alertport", 9093).toString());
+    setting->endGroup();
+
 }
 
 void SettingsDialog::on_pBtn_confirm_clicked() {
-    setting->beginGroup("FileManage");
+    setting->beginGroup("System");
+    if (ui->cBox_autostart->isChecked() == false) {
+        setting->setValue("autostart", false);
+    } else {
+        setting->setValue("autostart", true);
+    }
     setting->setValue("logDir", ui->lineE_logDir->text());
-    setting->endGroup();
-
-    setting->beginGroup("TDengine");
-    setting->setValue("ipaddr", ui->lineE_ipaddr->text());
-    setting->setValue("port", ui->lineE_port->text());
-    setting->setValue("dbname", ui->lineE_dbName->text());
     setting->endGroup();
 
     setting->beginGroup("Login");
@@ -123,16 +96,41 @@ void SettingsDialog::on_pBtn_confirm_clicked() {
     }
     setting->endGroup();
 
+    setting->beginGroup("TDengine");
+    setting->setValue("ipaddr", ui->lineE_ipaddr->text());
+    setting->setValue("port", ui->lineE_port->text());
+    setting->setValue("dbname", ui->lineE_dbName->text());
+    setting->endGroup();
+
+    setting->beginGroup("Grafana");
+    setting->setValue("ipaddr", ui->lineE_gIpaddr->text());
+    setting->setValue("port", ui->lineE_gPort->text());
+    setting->endGroup();
+
+    setting->beginGroup("AlertManager");
+    setting->setValue("ipaddr", ui->lineE_aIpaddr->text());
+    setting->setValue("ruleport", ui->lineE_aRulePort->text());
+    setting->setValue("alertport", ui->lineE_aAlertPort->text());
+    setting->endGroup();
+
     QMessageBox::information(this, tr("提示"), tr("配置将在下次启动时生效"));
     close();
 }
 
 void SettingsDialog::on_cBox_saveUserInfo_stateChanged(int state) {
     if (state == Qt::Checked) {
+        ui->label_userName->setEnabled(true);
         ui->lineE_userName->setEnabled(true);
+        ui->label_passwd->setEnabled(true);
         ui->lineE_passwd->setEnabled(true);
     } else {
+        ui->label_userName->setEnabled(false);
         ui->lineE_userName->setEnabled(false);
+        ui->label_passwd->setEnabled(false);
         ui->lineE_passwd->setEnabled(false);
     }
+}
+
+void SettingsDialog::on_pBtn_cancel_clicked() {
+    close();
 }

@@ -14,6 +14,7 @@ SOURCES += \
     logindialog.cpp \
     main.cpp \
     mainwindow.cpp \
+    realtimedatawidget.cpp \
     settingsdialog.cpp \
     tdenginedb.cpp
 
@@ -22,12 +23,14 @@ HEADERS += \
     logfile.h \
     logindialog.h \
     mainwindow.h \
+    realtimedatawidget.h \
     settingsdialog.h \
     tdenginedb.h
 
 FORMS += \
     logindialog.ui \
     mainwindow.ui \
+    realtimedatawidget.ui \
     settingsdialog.ui
 
 # Default rules for deployment.
