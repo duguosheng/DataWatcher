@@ -1,6 +1,7 @@
 #include "logindialog.h"
 #include "ui_logindialog.h"
 #include "common.h"
+#include "tdenginedb.h"
 #include <QDebug>
 
 LoginDialog::LoginDialog(QWidget *parent) :
@@ -9,6 +10,15 @@ LoginDialog::LoginDialog(QWidget *parent) :
     ui->setupUi(this);
     //密码框输入不显示明文
     ui->lineE_passwd->setEchoMode(QLineEdit::Password);
+
+    //自动填写账号密码
+    setting->beginGroup("Login");
+    if (setting->value("saveuserinfo", false).toBool()) {
+        ui->cBox_saveUserInfo->setCheckState(Qt::Checked);
+        ui->lineE_username->setText(setting->value("username", QString()).toString());
+        ui->lineE_passwd->setText(setting->value("passwd", QString()).toString());
+    }
+    setting->endGroup();
 
     //用户重新输入时，清除错误提示信息
     connect(ui->lineE_username, &QLineEdit::textChanged, this, &LoginDialog::ClearErrorMsg);
@@ -25,11 +35,9 @@ LoginDialog::~LoginDialog() {
  * @return 连接成功返回true，连接失败返回false
  */
 bool LoginDialog::ConnectTDengingServer() {
-    taos  = taos_connect("123.56.99.48",                            //IP地址
-                         QStringToChar(ui->lineE_username->text()), //用户名
-                         QStringToChar(ui->lineE_passwd->text()),   //密码
-                         "health",                                  //连接的数据库名
-                         6030);                                     //端口号
+    dbinfo.userName = ui->lineE_username->text();
+    dbinfo.passwd = ui->lineE_passwd->text();
+    taos = ConnectDB(dbinfo);
 
     if (taos) {
         SaveLog(tr("成功连接到服务器"));
@@ -48,8 +56,23 @@ void LoginDialog::on_pBtn_loginConfirm_clicked() {
     ui->label_errorMsg->setText(tr("正在登陆..."));
     ui->label_errorMsg->repaint();
 
-    if (ConnectTDengingServer())
+    if (ConnectTDengingServer()) {
+        //更新设置
+        setting->beginGroup("Login");
+        if (ui->cBox_saveUserInfo->isChecked()) {
+            setting->setValue("saveuserinfo", true);
+            setting->setValue("username", ui->lineE_username->text());
+            setting->setValue("passwd", ui->lineE_passwd->text());
+        } else {
+            setting->setValue("saveuserinfo", false);
+            setting->setValue("username", QString());
+            setting->setValue("passwd", QString());
+        }
+        setting->endGroup();
+
         accept();
+    }
+
 }
 
 void LoginDialog::on_pBtn_loginCancel_clicked() {
@@ -59,3 +82,4 @@ void LoginDialog::on_pBtn_loginCancel_clicked() {
 void LoginDialog::ClearErrorMsg() {
     ui->label_errorMsg->clear();
 }
+

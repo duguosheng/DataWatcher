@@ -14,6 +14,7 @@ SOURCES += \
     logindialog.cpp \
     main.cpp \
     mainwindow.cpp \
+    settingsdialog.cpp \
     tdenginedb.cpp
 
 HEADERS += \
@@ -21,11 +22,13 @@ HEADERS += \
     logfile.h \
     logindialog.h \
     mainwindow.h \
+    settingsdialog.h \
     tdenginedb.h
 
 FORMS += \
     logindialog.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    settingsdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -230,7 +230,7 @@ QLineEdit#lineE_passwd{
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="25,1">
+    <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="20,5,1">
      <item>
       <widget class="QLabel" name="label_errorMsg">
        <property name="text">
@@ -238,6 +238,13 @@ QLineEdit#lineE_passwd{
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="cBox_saveUserInfo">
+       <property name="text">
+        <string>记住密码</string>
        </property>
       </widget>
      </item>

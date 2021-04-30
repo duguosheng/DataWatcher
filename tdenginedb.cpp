@@ -1,5 +1,20 @@
 #include "tdenginedb.h"
 
+struct TDengineConnectInfo dbinfo;
+
+/**
+ * @brief ConnectDB 连接到TDengine数据库服务端
+ * @param dbconf 数据库连接配置信息
+ * @return 数据库连接句柄，失败返回nullptr
+ */
+TAOS *ConnectDB(const TDengineConnectInfo &dbconf) {
+    return taos_connect(QStringToChar(dbconf.ip),
+                        QStringToChar(dbconf.userName),
+                        QStringToChar(dbconf.passwd),
+                        QStringToChar(dbconf.dbName),
+                        dbconf.port);
+}
+
 /**
  * @brief TDengineDB::QueryDB 执行一句sql,无需结果返回
  * @param cmd 执行的SQL指令

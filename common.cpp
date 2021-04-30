@@ -4,6 +4,8 @@
 TAOS *taos = nullptr;
 //日志文件管理
 LogFile *log = nullptr;
+//软件偏好设置
+QSettings *setting = nullptr;
 
 /**
  * @brief QStringToChar 将QString转化为char*
@@ -19,8 +21,9 @@ const char *QStringToChar(const QString &qstr) {
  * @param logString 要保存的内容
  */
 void SaveLog(const QString &logString) {
-    if (log == nullptr)
+    if (log == nullptr) {
         log = new LogFile();
+    }
 
     log->SaveLog(logString);
 }
@@ -44,4 +47,9 @@ void ProgramExit() {
         log = nullptr;
     }
 
+    //关闭配置
+    if (setting) {
+        delete setting;
+        setting = nullptr;
+    }
 }

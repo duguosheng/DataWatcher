@@ -61,8 +61,16 @@
     <addaction name="action_L"/>
     <addaction name="action_S"/>
    </widget>
+   <widget class="QMenu" name="menu_S">
+    <property name="title">
+     <string>软件设置(&amp;S)</string>
+    </property>
+    <addaction name="action_P"/>
+    <addaction name="action_O"/>
+   </widget>
    <addaction name="menu_D"/>
    <addaction name="menu_A"/>
+   <addaction name="menu_S"/>
    <addaction name="menu_H"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
@@ -130,6 +138,16 @@
   <action name="action_S">
    <property name="text">
     <string>关于软件(&amp;S)</string>
+   </property>
+  </action>
+  <action name="action_P">
+   <property name="text">
+    <string>偏好设置(&amp;P)</string>
+   </property>
+  </action>
+  <action name="action_O">
+   <property name="text">
+    <string>打开配置文件(&amp;O)</string>
    </property>
   </action>
  </widget>

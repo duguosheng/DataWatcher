@@ -18,7 +18,6 @@ public:
 
 private slots:
     void on_pBtn_loginConfirm_clicked();
-
     void on_pBtn_loginCancel_clicked();
     void ClearErrorMsg();
 

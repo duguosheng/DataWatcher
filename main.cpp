@@ -1,14 +1,15 @@
 #include "mainwindow.h"
 #include "logindialog.h"
 #include "common.h"
+#include "settingsdialog.h"
 
 #include <QApplication>
 #include <QDebug>
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
+    InitSettings();
     SaveLog(QObject::tr("程序启动"));
-
     //登陆界面
     LoginDialog loginDlg;
 

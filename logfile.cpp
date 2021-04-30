@@ -1,24 +1,22 @@
 #include "logfile.h"
+#include "common.h"
 #include <QDateTime>
 #include <QTextStream>
 
 LogFile::LogFile(QObject *parent) : QObject(parent) {
-    InitLogSystem();
+    SetLogDir(QDir::currentPath() + "/log");
 }
 
-bool LogFile::OpenLogFile() {
-    //追加写模式打开，且将换行符转换为本地编码
-    return logFile.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text);
+LogFile::LogFile(const QString &dir, QObject *parent)
+    :  QObject(parent) {
+    SetLogDir(dir);
 }
 
-void LogFile::CloseLogFile() {
-    if (logFile.isOpen()) {
-        logFile.close();
-    }
-}
-
-bool LogFile::InitLogSystem() {
-    logDir = QDir::currentPath() + "/log";
+bool LogFile::SetLogDir(const QString &dir) {
+    if (dir.isEmpty())
+        logDir = QDir::currentPath() + "/log";
+    else
+        logDir = dir;
 
     if (!QDir().exists(logDir)) {
         if (!QDir().mkpath(logDir)) {
@@ -33,6 +31,19 @@ bool LogFile::InitLogSystem() {
 
     return true;
 }
+
+
+bool LogFile::OpenLogFile() {
+    //追加写模式打开，且将换行符转换为本地编码
+    return logFile.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text);
+}
+
+void LogFile::CloseLogFile() {
+    if (logFile.isOpen()) {
+        logFile.close();
+    }
+}
+
 
 void LogFile::SaveLog(const QString &log) {
     if (OpenLogFile()) {
