@@ -6,5 +6,11 @@
         <file>images/slider.png</file>
         <file>images/sliderHandle.png</file>
         <file>images/sycrane.jpg</file>
+        <file>images/alertmanager.png</file>
+        <file>images/grafana.png</file>
+        <file>images/setrule.png</file>
+        <file>images/setting.png</file>
+        <file>images/viewdata.png</file>
+        <file>images/viewrule.png</file>
     </qresource>
 </RCC>

@@ -3,12 +3,16 @@
 #include "common.h"
 #include "settingsdialog.h"
 #include "realtimedatawidget.h"
+#include "showalertruledialog.h"
+#include "setalertrulewidget.h"
+#include "showreadonlytextdialog.h"
+
 #include <QDebug>
 #include <QLabel>
 #include <QTableWidget>
 #include <QDesktopServices>
 #include <QUrl>
-
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -33,8 +37,10 @@ void MainWindow::on_action_P_triggered() {
 }
 
 void MainWindow::on_action_V_triggered() {
-    if (centralWidget())
+    if (centralWidget()) {
+        centralWidget()->close();
         centralWidget()->deleteLater();
+    }
     RealTimeDataWidget *dataWidget = new RealTimeDataWidget(this);
     setCentralWidget(dataWidget);
 }
@@ -52,6 +58,32 @@ void MainWindow::on_action_AlertManager_M_triggered() {
 }
 
 void MainWindow::on_action_V_2_triggered() {
-    if (centralWidget())
+    ShowAlertRuleDialog *showRuleDlg = new ShowAlertRuleDialog(this);
+    showRuleDlg->show();
+}
+
+void MainWindow::on_action_E_triggered() {
+    if (centralWidget()) {
+        centralWidget()->close();
         centralWidget()->deleteLater();
+    }
+    SetAlertRuleWidget *setRuleWidget = new SetAlertRuleWidget(this);
+    setCentralWidget(setRuleWidget);
+}
+
+void MainWindow::on_action_L_triggered() {
+    QString logFile = setting->value("System/logDir", QDir::currentPath() + "/log").toString()
+                      + "/" + GetLogFileName();
+    ShowReadOnlyTextDialog *showTextDlg = new ShowReadOnlyTextDialog(logFile, "运行日志" + GetLogFileName(), this);
+    showTextDlg->show();
+}
+
+void MainWindow::on_action_U_triggered() {
+    QString helpDoc = QDir::currentPath() + "/README.txt";
+    ShowReadOnlyTextDialog *showTextDlg = new ShowReadOnlyTextDialog(helpDoc, "帮助文档", this);
+    showTextDlg->show();
+}
+
+void MainWindow::on_action_C_triggered() {
+    QMessageBox::information(this, "关于软件", "武汉大学动力与机械学院2017级本科毕业设计\n汽车起重机健康状态实时监测系统\n作者：杜国胜");
 }

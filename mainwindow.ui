@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1500</width>
+    <width>1000</width>
     <height>800</height>
    </rect>
   </property>
@@ -88,7 +88,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1500</width>
+     <width>1000</width>
      <height>26</height>
     </rect>
    </property>
@@ -96,16 +96,15 @@ p, li { white-space: pre-wrap; }
     <property name="title">
      <string>数据查询(&amp;D)</string>
     </property>
-    <widget class="QMenu" name="menu_SQL_E">
+    <widget class="QMenu" name="menu_SQL_U">
      <property name="title">
-      <string>执行SQL指令(&amp;E)</string>
+      <string>使用SQL脚本(&amp;U)</string>
      </property>
-     <addaction name="action_R"/>
-     <addaction name="action_F"/>
+     <addaction name="action_SQL_E"/>
+     <addaction name="action_SQL_O"/>
     </widget>
     <addaction name="action_V"/>
-    <addaction name="action_SQL_O"/>
-    <addaction name="menu_SQL_E"/>
+    <addaction name="menu_SQL_U"/>
     <addaction name="action_Grafana_G"/>
    </widget>
    <widget class="QMenu" name="menu_A">
@@ -120,9 +119,9 @@ p, li { white-space: pre-wrap; }
     <property name="title">
      <string>帮助(&amp;H)</string>
     </property>
-    <addaction name="action_D"/>
+    <addaction name="action_U"/>
     <addaction name="action_L"/>
-    <addaction name="action_S"/>
+    <addaction name="action_C"/>
    </widget>
    <widget class="QMenu" name="menu_S">
     <property name="title">
@@ -146,51 +145,64 @@ p, li { white-space: pre-wrap; }
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="action_V"/>
+   <addaction name="action_Grafana_G"/>
+   <addaction name="separator"/>
+   <addaction name="action_E"/>
+   <addaction name="action_V_2"/>
+   <addaction name="action_AlertManager_M"/>
+   <addaction name="separator"/>
+   <addaction name="action_P"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="action_V">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/image/images/viewdata.png</normaloff>:/image/images/viewdata.png</iconset>
+   </property>
    <property name="text">
     <string>查看实时数据(&amp;V)</string>
    </property>
   </action>
-  <action name="action_SQL_O">
-   <property name="text">
-    <string>打开SQL脚本(&amp;O)</string>
-   </property>
-  </action>
-  <action name="action_R">
-   <property name="text">
-    <string>结果实时显示(&amp;R)</string>
-   </property>
-  </action>
-  <action name="action_F">
-   <property name="text">
-    <string>结果存到文件(&amp;F)</string>
-   </property>
-  </action>
   <action name="action_V_2">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/image/images/viewrule.png</normaloff>:/image/images/viewrule.png</iconset>
+   </property>
    <property name="text">
     <string>显示告警规则(&amp;V)</string>
    </property>
   </action>
   <action name="action_E">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/image/images/setrule.png</normaloff>:/image/images/setrule.png</iconset>
+   </property>
    <property name="text">
     <string>配置告警规则(&amp;E)</string>
    </property>
   </action>
   <action name="action_Grafana_G">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/image/images/grafana.png</normaloff>:/image/images/grafana.png</iconset>
+   </property>
    <property name="text">
     <string>登录Grafana(&amp;G)</string>
    </property>
   </action>
   <action name="action_AlertManager_M">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/image/images/alertmanager.png</normaloff>:/image/images/alertmanager.png</iconset>
+   </property>
    <property name="text">
     <string>打开AlertManager(&amp;M)</string>
    </property>
   </action>
-  <action name="action_D">
+  <action name="action_U">
    <property name="text">
-    <string>查看使用文档(&amp;D)</string>
+    <string>查看使用文档(&amp;U)</string>
    </property>
   </action>
   <action name="action_L">
@@ -198,12 +210,16 @@ p, li { white-space: pre-wrap; }
     <string>查看运行日志(&amp;L)</string>
    </property>
   </action>
-  <action name="action_S">
+  <action name="action_C">
    <property name="text">
-    <string>关于软件(&amp;S)</string>
+    <string>关于软件(&amp;C)</string>
    </property>
   </action>
   <action name="action_P">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/image/images/setting.png</normaloff>:/image/images/setting.png</iconset>
+   </property>
    <property name="text">
     <string>偏好设置(&amp;P)</string>
    </property>
@@ -213,7 +229,19 @@ p, li { white-space: pre-wrap; }
     <string>打开配置文件(&amp;O)</string>
    </property>
   </action>
+  <action name="action_SQL_E">
+   <property name="text">
+    <string>编辑SQL指令(&amp;E)</string>
+   </property>
+  </action>
+  <action name="action_SQL_O">
+   <property name="text">
+    <string>打开SQL文件(&amp;O)</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

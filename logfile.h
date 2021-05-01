@@ -12,15 +12,15 @@ public:
     explicit LogFile(const QString &dir, QObject *parent = nullptr);
     ~LogFile() = default;
     bool SetLogDir(const QString &dir);
-    bool OpenLogFile();
-    void CloseLogFile();
+    QString GetLogFileName();
     void SaveLog(const QString &log);
-
 
 private:
     QString logDir;    //日志存储路径
     QString logFileName;//文件名
     QFile logFile;//日志文件
+    bool OpenLogFile();
+    void CloseLogFile();
 
 signals:
     void logFailure(const QString &errMsg);

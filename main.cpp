@@ -79,6 +79,8 @@ void InitSettings() {
         setting->setValue("port", 6030);
     if (!setting->contains("dbname"))
         setting->setValue("dbname", "health_status");
+    if (!setting->contains("sTable"))
+        setting->setValue("sTable", "crane");
     setting->endGroup();
 
     setting->beginGroup("Grafana");
@@ -101,7 +103,7 @@ void InitSettings() {
     setting->beginGroup("System");
     AppAutoStart(setting->value("autostart", false).toBool());
     //创建日志读写对象
-    log = new LogFile(setting->value("logDir", QDir::currentPath() + "/log").toString());
+    runningLog = new LogFile(setting->value("logDir", QDir::currentPath() + "/log").toString());
     setting->endGroup();
 
     SaveLog(QObject::tr("程序启动"));

@@ -1,0 +1,762 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SetAlertRuleWidget</class>
+ <widget class="QWidget" name="SetAlertRuleWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>808</width>
+    <height>656</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QPushButton{
+/*背景色*/
+	background-color: rgb(210, 220, 255);
+/*边框样式*/
+border-style: outset;
+/*边框宽度为4像素*/
+border-width: 4px;
+/*边框圆角半径*/
+border-radius: 10px;
+/*边框颜色*/
+border-color: rgba(255, 225, 255, 30);
+/*字体*/
+font: bold 20px;
+/*字体颜色*/
+color: rgb(35, 35, 35);
+/*填衬*/
+padding: 6px;
+}
+
+QPushButton:disabled{
+background-color: rgba(211, 211, 211, 180);
+color: rgba(39, 39, 39, 100);
+}
+
+/*鼠标悬停在按钮上时*/
+QPushButton:hover{
+	background-color: rgb(102, 102, 255,200);
+border-color: rgba(255, 225, 255, 200);
+color:rgba(0, 0, 0, 200);
+}
+
+/*按钮被按下时*/
+QPushButton:pressed {
+background-color: rgba(102, 102, 255, 200);
+border-color: rgba(255, 225, 255, 30);
+border-style: inset;
+color:rgba(0, 0, 0, 100);
+}
+
+/*********标签*************/
+QLabel{
+	font: bold 17px;
+}
+
+QComboBox{
+	font: 17px;
+}
+
+QCheckBox{
+	font: bold 17px;
+}
+
+QLineEdit{
+	font: 75 10pt &quot;Consolas&quot;;
+}
+
+QTextBrowser{
+	font: 75 12pt &quot;Consolas&quot;;
+}</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0,0,0,0">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,7">
+       <item>
+        <widget class="QLabel" name="label_ruleName">
+         <property name="text">
+          <string>规则名称(&amp;N)</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineE_ruleName</cstring>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineE_ruleName">
+         <property name="text">
+          <string>rulename</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="1,6,1">
+       <item>
+        <widget class="QLabel" name="label_period">
+         <property name="text">
+          <string>检测周期(&amp;P)</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineE_period</cstring>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineE_period">
+         <property name="text">
+          <string>10</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="coBox_period">
+         <item>
+          <property name="text">
+           <string>秒</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>分钟</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>小时</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>天</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="1,6,1">
+       <item>
+        <widget class="QLabel" name="label_for">
+         <property name="text">
+          <string>持续时长(&amp;F)</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineE_for</cstring>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineE_for">
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="coBox_for">
+         <item>
+          <property name="text">
+           <string>秒</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>分钟</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>小时</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>天</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="10,1,50,15,4">
+       <item>
+        <widget class="QLabel" name="label_timeFrame">
+         <property name="text">
+          <string>时间范围(&amp;T)</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineE_timeFrom</cstring>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_timeFrom">
+         <property name="text">
+          <string>从</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineE_timeFrom">
+         <property name="text">
+          <string>5</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="coBox_timeFrame">
+         <property name="currentText">
+          <string>秒</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>微秒</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>毫秒</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>秒</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>分钟</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>小时</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>天</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>周</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_timeTo">
+         <property name="text">
+          <string>前到现在</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout" stretch="10,15,20,5,10,10,10">
+       <item>
+        <widget class="QCheckBox" name="cBox_var1">
+         <property name="text">
+          <string>变量一</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="coBox_valueType1">
+         <item>
+          <property name="text">
+           <string>平均值</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>最大值</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>最小值</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="coBox_param1">
+         <item>
+          <property name="text">
+           <string>液压油温</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>液压油量</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>支腿回路压力</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>支腿回路流量</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>支腿回路振动</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>起升回路压力</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>起升回路流量</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>起升回路振动</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>柴油机气缸压力</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>柴油机油温</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>柴油机振动</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_alias1">
+         <property name="text">
+          <string>别名</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineE_alias1">
+         <property name="text">
+          <string>variable1</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="coBox_compare1">
+         <item>
+          <property name="text">
+           <string>大于</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>小于</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineE_threshold1">
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="10,15,20,5,10,10,10">
+       <item>
+        <widget class="QCheckBox" name="cBox_var2">
+         <property name="text">
+          <string>变量二</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="coBox_valueType2">
+         <item>
+          <property name="text">
+           <string>平均值</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>最大值</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>最小值</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="coBox_param2">
+         <item>
+          <property name="text">
+           <string>液压油温</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>液压油量</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>支腿回路压力</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>支腿回路流量</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>支腿回路振动</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>起升回路压力</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>起升回路流量</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>起升回路振动</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>柴油机气缸压力</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>柴油机油温</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>柴油机振动</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_alias2">
+         <property name="text">
+          <string>别名</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineE_alias2">
+         <property name="text">
+          <string>variable2</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="coBox_compare2">
+         <item>
+          <property name="text">
+           <string>大于</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>小于</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineE_threshold2"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="10,15,20,5,10,10,10">
+       <item>
+        <widget class="QCheckBox" name="cBox_var3">
+         <property name="text">
+          <string>变量二</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="coBox_valueType3">
+         <item>
+          <property name="text">
+           <string>平均值</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>最大值</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>最小值</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="coBox_param3">
+         <item>
+          <property name="text">
+           <string>液压油温</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>液压油量</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>支腿回路压力</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>支腿回路流量</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>支腿回路振动</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>起升回路压力</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>起升回路流量</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>起升回路振动</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>柴油机气缸压力</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>柴油机油温</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>柴油机振动</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_alias3">
+         <property name="text">
+          <string>别名</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineE_alias3">
+         <property name="text">
+          <string>variable3</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="coBox_compare3">
+         <item>
+          <property name="text">
+           <string>大于</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>小于</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineE_threshold3"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="1,7">
+       <item>
+        <widget class="QLabel" name="label_annotations">
+         <property name="text">
+          <string>告警信息(&amp;I)</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineE_annotations</cstring>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineE_annotations">
+         <property name="text">
+          <string>warning!</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0">
+    <widget class="QTextBrowser" name="tBrow_showRule">
+     <property name="font">
+      <font>
+       <family>Consolas</family>
+       <pointsize>12</pointsize>
+       <weight>9</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="html">
+      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Consolas'; font-size:12pt; font-weight:72; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:400;&quot;&gt;说明：&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; text-decoration: underline;&quot;&gt;规则名称&lt;/span&gt;&lt;span style=&quot; font-size:14pt; font-weight:400;&quot;&gt;：在AlertManager中唯一标识规则，因此不允许名称重复&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; text-decoration: underline;&quot;&gt;检测周期&lt;/span&gt;&lt;span style=&quot; font-size:14pt; font-weight:400;&quot;&gt;：每过多久进行一次检测&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; text-decoration: underline;&quot;&gt;持续时长&lt;/span&gt;&lt;span style=&quot; font-size:14pt; font-weight:400;&quot;&gt;：指定布尔运算结果为真持续多久才触发告警，0s表示一旦为真立即触发&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; text-decoration: underline;&quot;&gt;变量&lt;/span&gt;&lt;span style=&quot; font-size:14pt; font-weight:400;&quot;&gt;：最多支持一个规则中含有三个参数，多个参数触发条件进行“与运算”，都满足时为真&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; text-decoration: underline;&quot;&gt;告警信息&lt;/span&gt;&lt;span style=&quot; font-size:14pt; font-weight:400;&quot;&gt;：当规则触发时生成的报警信息&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="1,2,1,3,1">
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="text">
+        <string>以JSON格式显示</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton">
+       <property name="text">
+        <string>添加规则到AlertManager</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

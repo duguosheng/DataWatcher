@@ -8,10 +8,11 @@
 #include "logfile.h"
 
 extern TAOS *taos;
-extern LogFile *log;
+extern LogFile *runningLog;
 extern QSettings *setting;
 
 void SaveLog(const QString &logString);
+QString GetLogFileName();
 void ProgramExit();
 
 #endif // COMMON_H

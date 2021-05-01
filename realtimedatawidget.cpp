@@ -8,7 +8,8 @@
 
 RealTimeDataWidget::RealTimeDataWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::RealTimeDataWidget) {
+    ui(new Ui::RealTimeDataWidget),
+    tsub(nullptr) {
     ui->setupUi(this);
     //禁用编辑
     ui->tWidget_realtimeData->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -28,6 +29,7 @@ RealTimeDataWidget::RealTimeDataWidget(QWidget *parent) :
 RealTimeDataWidget::~RealTimeDataWidget() {
     //取消订阅，不保留订阅信息
     if (tsub) {
+        qDebug() << "tsub1";
         taos_unsubscribe(tsub, 0);
         tsub = nullptr;
     }

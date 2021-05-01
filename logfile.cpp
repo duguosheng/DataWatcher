@@ -32,6 +32,9 @@ bool LogFile::SetLogDir(const QString &dir) {
     return true;
 }
 
+QString LogFile::GetLogFileName() {
+    return logFileName;
+}
 
 bool LogFile::OpenLogFile() {
     //追加写模式打开，且将换行符转换为本地编码

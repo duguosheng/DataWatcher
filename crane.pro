@@ -1,4 +1,5 @@
 QT       += core gui
+QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -15,7 +16,10 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     realtimedatawidget.cpp \
+    setalertrulewidget.cpp \
     settingsdialog.cpp \
+    showalertruledialog.cpp \
+    showreadonlytextdialog.cpp \
     tdenginedb.cpp
 
 HEADERS += \
@@ -24,14 +28,20 @@ HEADERS += \
     logindialog.h \
     mainwindow.h \
     realtimedatawidget.h \
+    setalertrulewidget.h \
     settingsdialog.h \
+    showalertruledialog.h \
+    showreadonlytextdialog.h \
     tdenginedb.h
 
 FORMS += \
     logindialog.ui \
     mainwindow.ui \
     realtimedatawidget.ui \
-    settingsdialog.ui
+    setalertrulewidget.ui \
+    settingsdialog.ui \
+    showalertruledialog.ui \
+    showreadonlytextdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

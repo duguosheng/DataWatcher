@@ -53,7 +53,7 @@ border-color: rgba(255, 225, 255, 30);
 /*字体*/
 font: bold 20px;
 /*字体颜色*/
-color:rgba(0, 0, 0, 100);
+color:rgba(0, 0, 0, 200);
 /*填衬*/
 padding: 6px;
 }

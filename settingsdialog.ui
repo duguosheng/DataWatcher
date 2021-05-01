@@ -7,26 +7,34 @@
     <x>0</x>
     <y>0</y>
     <width>650</width>
-    <height>650</height>
+    <height>700</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>650</width>
-    <height>650</height>
+    <height>700</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>650</width>
-    <height>650</height>
+    <height>700</height>
    </size>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>软件设置</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_6" stretch="3,4,4,3,4,1">
-   <item>
+  <property name="styleSheet">
+   <string notr="true">QLabel{
+font: bold 16px;
+}
+QCheckBox{
+font: bold 16px;
+}</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_6">
+   <item row="0" column="0">
     <widget class="QGroupBox" name="gBox_fileManage">
      <property name="title">
       <string>系统配置</string>
@@ -74,7 +82,7 @@
      </layout>
     </widget>
    </item>
-   <item>
+   <item row="1" column="0">
     <widget class="QGroupBox" name="gBox_login">
      <property name="title">
       <string>登录配置</string>
@@ -132,14 +140,14 @@
      </layout>
     </widget>
    </item>
-   <item>
+   <item row="2" column="0">
     <widget class="QGroupBox" name="gBox_tdengine">
      <property name="title">
       <string>TDengine配置</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0">
-       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,1,1">
+       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,1,1,1">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,7">
           <item>
@@ -191,12 +199,26 @@
           </item>
          </layout>
         </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_15" stretch="1,7">
+          <item>
+           <widget class="QLabel" name="label_sTableName">
+            <property name="text">
+             <string>超级表名</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineE_sTableName"/>
+          </item>
+         </layout>
+        </item>
        </layout>
       </item>
      </layout>
     </widget>
    </item>
-   <item>
+   <item row="3" column="0">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>Grafana配置</string>
@@ -243,7 +265,7 @@
      </layout>
     </widget>
    </item>
-   <item>
+   <item row="4" column="0">
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
       <string>AlertManager配置</string>
@@ -307,7 +329,7 @@
      </layout>
     </widget>
    </item>
-   <item>
+   <item row="5" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="5,1,1">
      <item>
       <spacer name="horizontalSpacer">

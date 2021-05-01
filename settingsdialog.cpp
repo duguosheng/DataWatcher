@@ -61,6 +61,7 @@ void SettingsDialog::InitDialog() {
     ui->lineE_ipaddr->setText(setting->value("ipaddr", "1.15.111.120").toString());
     ui->lineE_port->setText(setting->value("port", 6030).toString());
     ui->lineE_dbName->setText(setting->value("dbname", "health_status").toString());
+    ui->lineE_sTableName->setText(setting->value("sTable", "crane").toString());
     setting->endGroup();
 
     setting->beginGroup("Grafana");
@@ -100,6 +101,7 @@ void SettingsDialog::on_pBtn_confirm_clicked() {
     setting->setValue("ipaddr", ui->lineE_ipaddr->text());
     setting->setValue("port", ui->lineE_port->text());
     setting->setValue("dbname", ui->lineE_dbName->text());
+    setting->setValue("sTable", ui->lineE_sTableName->text());
     setting->endGroup();
 
     setting->beginGroup("Grafana");
