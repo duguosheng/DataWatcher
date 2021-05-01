@@ -79,8 +79,8 @@ void MainWindow::on_action_L_triggered() {
 }
 
 void MainWindow::on_action_U_triggered() {
-    QString helpDoc = QDir::currentPath() + "/README.txt";
-    ShowReadOnlyTextDialog *showTextDlg = new ShowReadOnlyTextDialog(helpDoc, "帮助文档", this);
+    QString helpDoc = QDir::currentPath() + "/README.md";
+    ShowReadOnlyTextDialog *showTextDlg = new ShowReadOnlyTextDialog(helpDoc, "帮助文档", this, "UTF-8");
     showTextDlg->show();
 }
 

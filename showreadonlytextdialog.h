@@ -11,7 +11,7 @@ class ShowReadOnlyTextDialog : public QDialog {
     Q_OBJECT
 
 public:
-    explicit ShowReadOnlyTextDialog(const QString &filename, const QString &dlgTitle, QWidget *parent = nullptr);
+    explicit ShowReadOnlyTextDialog(const QString &filename, const QString &dlgTitle, QWidget *parent = nullptr, const char *codec = "default");
     ~ShowReadOnlyTextDialog();
 
 private:
