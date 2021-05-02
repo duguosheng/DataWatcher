@@ -58,6 +58,9 @@ bool SetAlertRuleWidget::GenerateRule() {
     annotations.clear();
     sql.clear();
     expr.clear();
+    ruleStr.clear();
+    ruleBtArray.clear();
+    ruleJsonDoc = QJsonDocument();
 
     name = ui->lineE_ruleName->text();
     if (ui->lineE_period->text().isEmpty() == false)

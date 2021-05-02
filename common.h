@@ -7,9 +7,9 @@
 #include <QSettings>
 #include "logfile.h"
 
-extern TAOS *taos;
-extern LogFile *runningLog;
-extern QSettings *setting;
+extern TAOS *taos;          //TDengine连接句柄
+extern LogFile *runningLog; //日志文件类指针
+extern QSettings *setting;  //软件设置
 
 void SaveLog(const QString &logString);
 QString GetLogFileName();

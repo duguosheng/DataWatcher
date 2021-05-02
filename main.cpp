@@ -31,7 +31,6 @@ int main(int argc, char *argv[]) {
  * @param bAutoRun 是否开机自启动
  */
 void AppAutoStart(bool isAutoRun) {
-#ifdef Q_OS_WIN //windows系统下
     QSettings reg("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
     QString applicationName = QApplication::applicationName();
     if (isAutoRun) {
@@ -40,7 +39,6 @@ void AppAutoStart(bool isAutoRun) {
     } else {
         reg.remove(applicationName);
     }
-#endif
 }
 
 /**

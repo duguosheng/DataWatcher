@@ -16,14 +16,14 @@ public:
     void SaveLog(const QString &log);
 
 private:
-    QString logDir;    //日志存储路径
-    QString logFileName;//文件名
-    QFile logFile;//日志文件
-    bool OpenLogFile();
-    void CloseLogFile();
+    QString logDir;      //日志存储路径
+    QString logFileName; //文件名
+    QFile logFile;       //日志文件
+    bool OpenLogFile();  //打开日志文件
+    void CloseLogFile(); //关闭日志文件
 
 signals:
-    void logFailure(const QString &errMsg);
+    void logFailure(const QString &errMsg);//这个信号目前没有关联到任何槽函数
 
 };
 
