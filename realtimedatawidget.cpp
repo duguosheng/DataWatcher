@@ -5,6 +5,7 @@
 
 #include <QDateTime>
 #include <QDebug>
+#include <QMessageBox>
 
 RealTimeDataWidget::RealTimeDataWidget(QWidget *parent) :
     QWidget(parent),
@@ -48,17 +49,43 @@ void RealTimeDataWidget::on_pBtn_startQuery_clicked() {
 
     //获取设备型号
     char craneType[16];
-    TAOS_RES *res = taos_query(taos, QString("SELECT TYPE FROM " + tablename).toStdString().c_str());
+    QString sql = "SELECT TYPE FROM " + tablename;
+    TAOS_RES *res = taos_query(taos, sql.toStdString().c_str());
+    if (res == NULL || taos_errno(res) != 0) {
+        SaveLog("执行SQL：(" + sql + ")失败, 错误原因:" + QString(taos_errstr(res)));
+        QMessageBox::warning(this, "警告", "查询失败，可能原因如下\n"
+                             "1.未在C:\\Windows\\System32\\drivers\\etc\\hosts文件中填写(服务器IP 服务器主机名)的映射，"
+                             "这是TDengine所要求的，在默认设置下，您需要向该文件中添加"
+                             + setting->value("TDengine/ipaddr", "1.15.111.120").toString()
+                             + " VM-4-2-centos\n"
+                             "2.未连接到互联网\n"
+                             "3.数据库中不存在该设备信息");
+        // taos_free_result(res);
+        return;
+    }
+
     TAOS_FIELD *fields = taos_fetch_fields(res); //获取列属性
     int num_fields = taos_num_fields(res);       //获取列数
     taos_print_row(craneType, taos_fetch_row(res), fields, num_fields);
     ui->label_type->setText("当前设备型号：" + QString(craneType));
     taos_free_result(res);
 
+    sql = "SELECT * FROM " + tablename + " WHERE ts > now-30s;";
     //订阅数据库表，周期为1000ms
     tsub = taos_subscribe(taos, 0, tablename.toStdString().c_str(),
-                          QString("SELECT * FROM " + tablename + " WHERE ts > now-30s;").toStdString().c_str(),
+                          sql.toStdString().c_str(),
                           NULL, NULL, 5000);
+    if (tsub == NULL) {
+        SaveLog("执行SQL：(" + sql + ")失败, 错误原因:" + QString(taos_errstr(res)));
+        QMessageBox::warning(this, "警告", "查询失败，可能原因如下\n"
+                             "1.未在C:\\Windows\\System32\\drivers\\etc\\hosts文件中填写(服务器IP 服务器主机名)的映射，"
+                             "这是TDengine所要求的，在默认设置下，您需要向该文件中添加"
+                             + setting->value("TDengine/ipaddr", "1.15.111.120").toString()
+                             + " VM-4-2-centos\n"
+                             "2.未连接到互联网\n"
+                             "3.数据库中不存在该设备信息");
+        return;
+    }
     //开启定时器，默认为5000ms
     bool ok;
     uint interval = ui->lineE_interval->text().toUInt(&ok);
@@ -112,7 +139,8 @@ void RealTimeDataWidget::RefreshData() {
 void RealTimeDataWidget::on_pBtn_stopQuery_clicked() {
     SaveLog("实时查询模块停止");
     //停止定时器
-    consumeTimer->stop();
+    if (consumeTimer->isActive())
+        consumeTimer->stop();
 
     ui->coBox_gid->setEnabled(true);
     ui->lineE_id->setEnabled(true);

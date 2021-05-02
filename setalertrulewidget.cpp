@@ -50,6 +50,15 @@ void SetAlertRuleWidget::BuildJson() {
 }
 
 bool SetAlertRuleWidget::GenerateRule() {
+    //清空数据
+    name.clear();
+    period.clear();
+    forTime.clear();
+    fromTime.clear();
+    annotations.clear();
+    sql.clear();
+    expr.clear();
+
     name = ui->lineE_ruleName->text();
     if (ui->lineE_period->text().isEmpty() == false)
         period = ui->lineE_period->text() + unitPeriod[ui->coBox_period->currentIndex()];
@@ -97,7 +106,7 @@ bool SetAlertRuleWidget::GenerateRule() {
 
     //存在未填写的元素
     if (name.isEmpty() || period.isEmpty() || forTime.isEmpty() || fromTime.isEmpty()
-            || annotations.isEmpty() || !ui->cBox_var1->isChecked())
+            || annotations.isEmpty() || !ui->cBox_var1->isChecked() || ui->lineE_threshold1->text().isEmpty())
         return false;
 
     return true;
@@ -105,10 +114,10 @@ bool SetAlertRuleWidget::GenerateRule() {
 
 void SetAlertRuleWidget::ReplyFinished(QNetworkReply *reply) {
     if (reply->error() == QNetworkReply::NoError) {
-        QMessageBox::information(this, "通知", "添加成功");
+        QMessageBox::information(this, "通知", "向服务器配置告警规则成功");
         SaveLog("向服务器配置告警规则成功");
     } else {
-        QMessageBox::warning(this, "通知", "添加失败");
+        QMessageBox::warning(this, "通知", "向服务器配置告警规则失败\n请检查您的网络连接");
         SaveLog("向服务器配置告警规则失败");
     }
     reply->deleteLater();
@@ -204,10 +213,13 @@ void SetAlertRuleWidget::on_cBox_var3_stateChanged(int state) {
 
 void SetAlertRuleWidget::on_pushButton_clicked() {
     if (GenerateRule()) {
-        manager->post(QNetworkRequest(QUrl("http://" +
-                                           setting->value("AlertManager/ipaddr", "1.15.111.120").toString() + ":" +
-                                           setting->value("AlertManager/ruleport", "8100").toString()
-                                           + "/api/update-rule")), ruleBtArray);
+        QNetworkRequest request = QNetworkRequest(QUrl("http://" +
+                                  setting->value("AlertManager/ipaddr", "1.15.111.120").toString() + ":" +
+                                  setting->value("AlertManager/ruleport", "8100").toString()
+                                  + "/api/update-rule"));
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+        manager->post(request, ruleBtArray);
+        manager->clearAccessCache();
     } else {
         QMessageBox::warning(this, "格式错误", "配置生成错误\n请仔细检查是否有项目为空或填错");
     }
