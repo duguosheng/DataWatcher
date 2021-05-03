@@ -6,6 +6,7 @@
 
 #include <QApplication>
 #include <QDebug>
+#include <QThread>
 
 void InitSettings();
 

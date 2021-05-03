@@ -38,7 +38,7 @@ QString LogFile::GetLogFileName() {
 
 bool LogFile::OpenLogFile() {
     //追加写模式打开，且将换行符转换为本地编码
-    return logFile.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text);
+    return logFile.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text | QIODevice::Unbuffered);
 }
 
 void LogFile::CloseLogFile() {

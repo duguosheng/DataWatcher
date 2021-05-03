@@ -1,4 +1,5 @@
 #include "common.h"
+#include <QDebug>
 
 //日志文件管理
 LogFile *runningLog = nullptr;
@@ -45,4 +46,5 @@ void ProgramExit() {
         delete setting;
         setting = nullptr;
     }
+    qDebug() << "exit";
 }

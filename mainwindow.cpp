@@ -25,8 +25,10 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() {
-    ProgramExit();
+    if (centralWidget())
+        centralWidget()->deleteLater();
     delete ui;
+    ProgramExit();
 }
 
 void MainWindow::on_action_P_triggered() {

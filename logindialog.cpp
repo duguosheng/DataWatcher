@@ -26,8 +26,9 @@ LoginDialog::LoginDialog(QWidget *parent) :
 }
 
 LoginDialog::~LoginDialog() {
-    ProgramExit();
+    qDebug() << "bye";
     delete ui;
+    ProgramExit();
 }
 
 /**
