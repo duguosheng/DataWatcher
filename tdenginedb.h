@@ -2,7 +2,8 @@
 #define TDENGINEDB_H
 
 #include <QObject>
-#include "common.h"
+#include <taos.h>
+#include <taoserror.h>
 
 extern "C" {
     //位置信息

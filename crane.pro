@@ -11,6 +11,7 @@ CONFIG += c++11
 
 SOURCES += \
     common.cpp \
+    getrealtimedata.cpp \
     logfile.cpp \
     logindialog.cpp \
     main.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
 
 HEADERS += \
     common.h \
+    getrealtimedata.h \
     logfile.h \
     logindialog.h \
     mainwindow.h \

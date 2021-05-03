@@ -54,7 +54,6 @@ void ShowRealTimeDataWidget::on_pBtn_startQuery_clicked() {
                              + " VM-4-2-centos\n"
                              "2.未连接到互联网\n"
                              "3.数据库中不存在该设备信息");
-        // taos_free_result(res);
         return;
     }
 

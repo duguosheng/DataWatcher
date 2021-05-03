@@ -1,4 +1,5 @@
 #include "tdenginedb.h"
+#include "common.h"
 #include <QDebug>
 
 
@@ -34,7 +35,6 @@ TAOS *ConnectDB(const TDengineConnectInfo &dbconf) {
 bool QueryDB(const QString &cmd) {
     if (!taos)
         return false;
-    const char *command = cmd.toStdString().c_str();
     int i;
     TAOS_RES *pSql = NULL;
     int32_t code = -1;
@@ -46,7 +46,7 @@ bool QueryDB(const QString &cmd) {
             pSql = NULL;
         }
 
-        pSql = taos_query(taos, command);
+        pSql = taos_query(taos, cmd.toStdString().c_str());
         code = taos_errno(pSql);
 
         if (0 == code) {
