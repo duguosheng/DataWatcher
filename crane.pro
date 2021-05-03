@@ -15,11 +15,11 @@ SOURCES += \
     logindialog.cpp \
     main.cpp \
     mainwindow.cpp \
-    realtimedatawidget.cpp \
     setalertrulewidget.cpp \
     settingsdialog.cpp \
     showalertruledialog.cpp \
     showreadonlytextdialog.cpp \
+    showrealtimedatawidget.cpp \
     tdenginedb.cpp
 
 HEADERS += \
@@ -27,21 +27,21 @@ HEADERS += \
     logfile.h \
     logindialog.h \
     mainwindow.h \
-    realtimedatawidget.h \
     setalertrulewidget.h \
     settingsdialog.h \
     showalertruledialog.h \
     showreadonlytextdialog.h \
+    showrealtimedatawidget.h \
     tdenginedb.h
 
 FORMS += \
     logindialog.ui \
     mainwindow.ui \
-    realtimedatawidget.ui \
     setalertrulewidget.ui \
     settingsdialog.ui \
     showalertruledialog.ui \
-    showreadonlytextdialog.ui
+    showreadonlytextdialog.ui \
+    showrealtimedatawidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

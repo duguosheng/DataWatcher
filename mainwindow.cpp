@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include "common.h"
 #include "settingsdialog.h"
-#include "realtimedatawidget.h"
+#include "showrealtimedatawidget.h"
 #include "showalertruledialog.h"
 #include "setalertrulewidget.h"
 #include "showreadonlytextdialog.h"
@@ -41,7 +41,7 @@ void MainWindow::on_action_V_triggered() {
         centralWidget()->close();
         centralWidget()->deleteLater();
     }
-    RealTimeDataWidget *dataWidget = new RealTimeDataWidget(this);
+    ShowRealTimeDataWidget *dataWidget = new ShowRealTimeDataWidget(this);
     setCentralWidget(dataWidget);
 }
 

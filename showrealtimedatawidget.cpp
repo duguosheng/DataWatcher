@@ -1,5 +1,5 @@
-#include "realtimedatawidget.h"
-#include "ui_realtimedatawidget.h"
+#include "showrealtimedatawidget.h"
+#include "ui_showrealtimedatawidget.h"
 #include "common.h"
 #include "tdenginedb.h"
 
@@ -7,9 +7,9 @@
 #include <QDebug>
 #include <QMessageBox>
 
-RealTimeDataWidget::RealTimeDataWidget(QWidget *parent) :
+ShowRealTimeDataWidget::ShowRealTimeDataWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::RealTimeDataWidget),
+    ui(new Ui::ShowRealTimeDataWidget),
     tsub(nullptr) {
     ui->setupUi(this);
     //禁用编辑
@@ -24,10 +24,10 @@ RealTimeDataWidget::RealTimeDataWidget(QWidget *parent) :
     ui->pBtn_stopQuery->setEnabled(false);
     //创建定时器对象
     consumeTimer = new QTimer(this);
-    connect(consumeTimer, &QTimer::timeout, this, &RealTimeDataWidget::RefreshData);
+    connect(consumeTimer, &QTimer::timeout, this, &ShowRealTimeDataWidget::RefreshData);
 }
 
-RealTimeDataWidget::~RealTimeDataWidget() {
+ShowRealTimeDataWidget::~ShowRealTimeDataWidget() {
     //取消订阅，不保留订阅信息
     if (tsub) {
         qDebug() << "tsub1";
@@ -37,13 +37,7 @@ RealTimeDataWidget::~RealTimeDataWidget() {
     delete ui;
 }
 
-void RealTimeDataWidget::on_pBtn_startQuery_clicked() {
-    ui->coBox_gid->setEnabled(false);
-    ui->lineE_id->setEnabled(false);
-    ui->lineE_interval->setEnabled(false);
-    ui->pBtn_startQuery->setEnabled(false);
-    ui->pBtn_stopQuery->setEnabled(true);
-
+void ShowRealTimeDataWidget::on_pBtn_startQuery_clicked() {
     QString tablename = "d" + ui->coBox_gid->currentText() + ui->lineE_id->text();
     SaveLog("实时查询模块启动，查询表名为" + tablename);
 
@@ -95,11 +89,18 @@ void RealTimeDataWidget::on_pBtn_startQuery_clicked() {
         ui->lineE_interval->setText("5000");
         consumeTimer->start(5000);
     }
+
+    ui->coBox_gid->setEnabled(false);
+    ui->lineE_id->setEnabled(false);
+    ui->lineE_interval->setEnabled(false);
+    ui->pBtn_startQuery->setEnabled(false);
+    ui->pBtn_stopQuery->setEnabled(true);
+
     //立即先触发一次
     RefreshData();
 }
 
-void RealTimeDataWidget::RefreshData() {
+void ShowRealTimeDataWidget::RefreshData() {
     TAOS_RES *res = taos_consume(tsub);
     if (res == NULL) {
         SaveLog("RealTimeDataWidget::RefreshData  查询出错");
@@ -136,7 +137,7 @@ void RealTimeDataWidget::RefreshData() {
 }
 
 
-void RealTimeDataWidget::on_pBtn_stopQuery_clicked() {
+void ShowRealTimeDataWidget::on_pBtn_stopQuery_clicked() {
     SaveLog("实时查询模块停止");
     //停止定时器
     if (consumeTimer->isActive())
