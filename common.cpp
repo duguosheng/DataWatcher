@@ -2,6 +2,7 @@
 
 //日志文件管理
 LogFile *runningLog = nullptr;
+QReadWriteLock logLock;
 //软件偏好设置
 QSettings *setting = nullptr;
 
@@ -11,7 +12,9 @@ QSettings *setting = nullptr;
  */
 void SaveLog(const QString &logString) {
     if (runningLog) {
+        logLock.lockForWrite();
         runningLog->SaveLog(logString);
+        logLock.unlock();
     }
 }
 

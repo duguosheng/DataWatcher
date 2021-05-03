@@ -1,7 +1,6 @@
 #include "showreadonlytextdialog.h"
 #include "ui_showreadonlytextdialog.h"
 #include "common.h"
-#include <QFile>
 #include <QTextStream>
 #include <QDebug>
 /**
@@ -13,25 +12,45 @@
 ShowReadOnlyTextDialog::ShowReadOnlyTextDialog(const QString &filename, const QString &dlgTitle, QWidget *parent, const char *codec) :
     QDialog(parent),
     ui(new Ui::ShowReadOnlyTextDialog),
-    rfile(new QFile(filename)) {
+    fileName(filename),
+    rfile(filename),
+    codeC(codec),
+    rLock(nullptr) {
     ui->setupUi(this);
     setWindowTitle(dlgTitle);
-    rfile->open(QIODevice::ReadOnly | QIODevice::Text);
-    if (rfile->isOpen()) {
-        QTextStream readStream(rfile);
-        if (strcmp(codec, "default"))
-            readStream.setCodec(codec);
+    on_pBtn_refresh_clicked();  //立即刷新一次
+}
+
+ShowReadOnlyTextDialog::~ShowReadOnlyTextDialog() {
+    delete ui;
+}
+
+void ShowReadOnlyTextDialog::SetReadLock(QReadWriteLock *rwlock) {
+    rLock = rwlock;
+}
+
+void ShowReadOnlyTextDialog::on_pBtn_refresh_clicked() {
+    if (rLock)
+        rLock->lockForRead();
+
+    if (rfile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream readStream(&rfile);
+        if (strcmp(codeC, "default"))
+            readStream.setCodec(codeC);
         ui->tBrow_showText->setText(QString(readStream.readAll()));
+        rfile.close();
+
+        if (rLock)
+            rLock->unlock();
     } else {
-        SaveLog("读取文件" + filename + "失败");
-        delete rfile;
-        rfile = nullptr;
+        if (rLock)
+            rLock->unlock();
+
+        SaveLog("读取文件" + fileName + "失败");
     }
 
 }
 
-ShowReadOnlyTextDialog::~ShowReadOnlyTextDialog() {
-    if (rfile)
-        rfile->deleteLater();
-    delete ui;
+void ShowReadOnlyTextDialog::on_pBtn_close_clicked() {
+    close();
 }

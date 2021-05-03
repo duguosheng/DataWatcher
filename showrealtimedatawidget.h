@@ -19,7 +19,6 @@ public:
 private slots:
     void on_pBtn_startQuery_clicked();
     void RefreshData();
-
     void on_pBtn_stopQuery_clicked();
 
 private:

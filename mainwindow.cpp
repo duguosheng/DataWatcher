@@ -75,6 +75,7 @@ void MainWindow::on_action_L_triggered() {
     QString logFile = setting->value("System/logDir", QDir::currentPath() + "/log").toString()
                       + "/" + GetLogFileName();
     ShowReadOnlyTextDialog *showTextDlg = new ShowReadOnlyTextDialog(logFile, "运行日志" + GetLogFileName(), this);
+    showTextDlg->SetReadLock(&logLock);
     showTextDlg->show();
 }
 

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QFile>
 #include <QDir>
+#include <QReadWriteLock>
 
 class LogFile : public QObject {
     Q_OBJECT
