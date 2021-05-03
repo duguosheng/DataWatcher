@@ -20,6 +20,8 @@ public:
 private slots:
     void on_pBtn_refresh_clicked();
 
+    void on_pBtn_close_clicked();
+
 private:
     Ui::ShowReadOnlyTextDialog *ui;
     QString fileName;
