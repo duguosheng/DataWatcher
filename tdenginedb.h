@@ -54,5 +54,8 @@ extern TAOS_BIND params[16];
 TAOS *ConnectDB(const TDengineConnectInfo &dbconf);
 bool QueryDB(const QString &cmd);
 bool QueryDataFromCrane(const QString &tablename);
+QStringList ParseRow(const TAOS_ROW &row, TAOS_FIELD *fields, int numFields);
+class QTableWidget;
+void ShowDataOnTableWidget(QTableWidget *tableWidget, TAOS_RES *res, TAOS_FIELD *fields, int numFields);
 
 #endif // TDENGINEDB_H

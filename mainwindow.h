@@ -27,6 +27,10 @@ private slots:
     void on_action_U_triggered();
     void on_action_C_triggered();
 
+    void on_action_SQL_E_triggered();
+
+    void on_action_SQL_O_triggered();
+
 private:
     Ui::MainWindow *ui;
 };

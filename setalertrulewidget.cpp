@@ -8,6 +8,7 @@
 #include <QNetworkRequest>
 #include <QDebug>
 
+//一些静态字符串常量，作用是从coBox的索引映射到这些字符串
 const QString SetAlertRuleWidget::valueType[] = {"AVG", "MAX", "MIN"};
 const QString SetAlertRuleWidget::craneParams[] = {"h_temperature", "h_oilvolume",
                                                    "h_pressure_1", "h_flow_1", "h_vibration_1",
@@ -32,6 +33,9 @@ SetAlertRuleWidget::~SetAlertRuleWidget() {
     delete ui;
 }
 
+/**
+ * @brief SetAlertRuleWidget::BuildJson 讲规则转换为JSON格式
+ */
 void SetAlertRuleWidget::BuildJson() {
     //构建json
     QJsonObject ruleJson;
@@ -49,6 +53,10 @@ void SetAlertRuleWidget::BuildJson() {
     ruleStr = QString(ruleBtArray);
 }
 
+/**
+ * @brief SetAlertRuleWidget::GenerateRule 从UI界面读取配置并生成规则
+ * @return
+ */
 bool SetAlertRuleWidget::GenerateRule() {
     //清空数据
     name.clear();
@@ -107,7 +115,7 @@ bool SetAlertRuleWidget::GenerateRule() {
     //构建JSON
     BuildJson();
 
-    //存在未填写的元素
+    //存在未填写的元素，这只是一种简单的检查方法
     if (name.isEmpty() || period.isEmpty() || forTime.isEmpty() || fromTime.isEmpty()
             || annotations.isEmpty() || !ui->cBox_var1->isChecked() || ui->lineE_threshold1->text().isEmpty())
         return false;
@@ -126,12 +134,9 @@ void SetAlertRuleWidget::ReplyFinished(QNetworkReply *reply) {
     reply->deleteLater();
 }
 
-
-void SetAlertRuleWidget::on_pushButton_2_clicked() {
-    GenerateRule();
-    ui->tBrow_showRule->setText(ruleStr);
-}
-
+/**
+ * @brief SetAlertRuleWidget::InitDialog 初始化界面
+ */
 void SetAlertRuleWidget::InitDialog() {
     ui->cBox_var1->setChecked(true);
     ui->cBox_var2->setChecked(false);
@@ -214,7 +219,18 @@ void SetAlertRuleWidget::on_cBox_var3_stateChanged(int state) {
     }
 }
 
-void SetAlertRuleWidget::on_pushButton_clicked() {
+/**
+ * @brief SetAlertRuleWidget::on_pBtn_toJson_clicked 转换为JSON格式显示，无需检查生成是否错误
+ */
+void SetAlertRuleWidget::on_pBtn_toJson_clicked() {
+    GenerateRule();
+    ui->tBrow_showRule->setText(ruleStr);
+}
+
+/**
+ * @brief SetAlertRuleWidget::on_pBtn__addRule_clicked 添加规则到服务器
+ */
+void SetAlertRuleWidget::on_pBtn__addRule_clicked() {
     if (GenerateRule()) {
         QNetworkRequest request = QNetworkRequest(QUrl("http://" +
                                   setting->value("AlertManager/ipaddr", "1.15.111.120").toString() + ":" +

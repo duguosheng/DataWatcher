@@ -18,11 +18,8 @@ public:
 
 private slots:
     void on_pBtn_LogDir_clicked();
-
     void on_pBtn_confirm_clicked();
-
     void on_cBox_saveUserInfo_stateChanged(int arg1);
-
     void on_pBtn_cancel_clicked();
 
 private:

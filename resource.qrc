@@ -5,12 +5,17 @@
         <file>images/background2.png</file>
         <file>images/slider.png</file>
         <file>images/sliderHandle.png</file>
-        <file>images/sycrane.jpg</file>
+        <file>images/about.png</file>
         <file>images/alertmanager.png</file>
+        <file>images/data.png</file>
+        <file>images/editrule.png</file>
+        <file>images/editsql.png</file>
         <file>images/grafana.png</file>
-        <file>images/setrule.png</file>
+        <file>images/helpdoc.png</file>
+        <file>images/ini.png</file>
+        <file>images/Log.png</file>
+        <file>images/seerules.png</file>
         <file>images/setting.png</file>
-        <file>images/viewdata.png</file>
-        <file>images/viewrule.png</file>
+        <file>images/sqlfile.png</file>
     </qresource>
 </RCC>

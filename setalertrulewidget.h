@@ -49,11 +49,11 @@ private:
 
 private slots:
     void ReplyFinished(QNetworkReply *reply);
-    void on_pushButton_2_clicked();
     void on_cBox_var1_stateChanged(int state);
     void on_cBox_var2_stateChanged(int state);
     void on_cBox_var3_stateChanged(int state);
-    void on_pushButton_clicked();
+    void on_pBtn_toJson_clicked();
+    void on_pBtn__addRule_clicked();
 };
 
 #endif // SETALERTRULEWIDGET_H

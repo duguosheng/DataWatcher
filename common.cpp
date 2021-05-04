@@ -19,6 +19,10 @@ void SaveLog(const QString &logString) {
     }
 }
 
+/**
+ * @brief GetLogFileName 获取日志文件名
+ * @return 日志文件名
+ */
 QString GetLogFileName() {
     return runningLog->GetLogFileName();
 }
@@ -46,5 +50,4 @@ void ProgramExit() {
         delete setting;
         setting = nullptr;
     }
-    qDebug() << "exit";
 }

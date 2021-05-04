@@ -25,6 +25,10 @@ ShowReadOnlyTextDialog::~ShowReadOnlyTextDialog() {
     delete ui;
 }
 
+/**
+ * @brief ShowReadOnlyTextDialog::SetReadLock 设置锁
+ * @param rwlock 读写锁
+ */
 void ShowReadOnlyTextDialog::SetReadLock(QReadWriteLock *rwlock) {
     rLock = rwlock;
 }
@@ -35,6 +39,7 @@ void ShowReadOnlyTextDialog::on_pBtn_refresh_clicked() {
 
     if (rfile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QTextStream readStream(&rfile);
+        //如果用户没有设置编码则保持默认
         if (strcmp(codeC, "default"))
             readStream.setCodec(codeC);
         ui->tBrow_showText->setText(QString(readStream.readAll()));

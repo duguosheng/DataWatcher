@@ -17,11 +17,7 @@ ShowRealTimeDataWidget::ShowRealTimeDataWidget(QWidget *parent):
     ui->tWidget_realtimeData->setEditTriggers(QAbstractItemView::NoEditTriggers);
     //整行选中
     ui->tWidget_realtimeData->setSelectionBehavior(QAbstractItemView::SelectRows);
-    //调整列宽
-    ui->tWidget_realtimeData->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
-    for (int i = 1; i <= 13; ++i) {
-        ui->tWidget_realtimeData->horizontalHeader()->setSectionResizeMode(i, QHeaderView::Stretch);
-    }
+
     ui->pBtn_stopQuery->setEnabled(false);
     ui->lineE_interval->setValidator(new QIntValidator(100, 9999999, this));
 
@@ -33,19 +29,21 @@ ShowRealTimeDataWidget::ShowRealTimeDataWidget(QWidget *parent):
 }
 
 ShowRealTimeDataWidget::~ShowRealTimeDataWidget() {
-    qDebug() << "delete showrt";
+    stopFlag = true;
+    queryThread->deleteLater();
     delete ui;
 }
 
 void ShowRealTimeDataWidget::on_pBtn_startQuery_clicked() {
     stopFlag = false;
+    //毕设中的表名格式是“d+分组号+设备编号”
     QString tablename = "d" + ui->coBox_gid->currentText() + ui->lineE_id->text();
 
     //获取设备型号
     char craneType[16];
     QString sql = "SELECT TYPE FROM " + tablename;
     TAOS_RES *res = taos_query(taos, sql.toStdString().c_str());
-    if (res == NULL || taos_errno(res) != 0) {
+    if (taos_errno(res) != 0) {
         SaveLog("执行SQL：(" + sql + ")失败, 错误原因:" + QString(taos_errstr(res)));
         QMessageBox::warning(this, "警告", "查询失败，可能原因如下\n"
                              "1.未在C:\\Windows\\System32\\drivers\\etc\\hosts文件中填写(服务器IP 服务器主机名)的映射，"
@@ -54,6 +52,7 @@ void ShowRealTimeDataWidget::on_pBtn_startQuery_clicked() {
                              + " VM-4-2-centos\n"
                              "2.未连接到互联网\n"
                              "3.数据库中不存在该设备信息");
+        taos_free_result(res);
         return;
     }
 
@@ -67,6 +66,7 @@ void ShowRealTimeDataWidget::on_pBtn_startQuery_clicked() {
     queryThread->SetTableName(tablename);
     bool ok;
     int interval = ui->lineE_interval->text().toInt(&ok);
+    //设置最快刷新频率为100ms
     if (ok && interval > 100)
         queryThread->SetInterval(interval);
     else {
@@ -77,40 +77,21 @@ void ShowRealTimeDataWidget::on_pBtn_startQuery_clicked() {
     SaveLog("实时查询模块启动，查询表名为" + tablename);
 }
 
+/**
+ * @brief ShowRealTimeDataWidget::RefreshData 更新tablewidget显示数据
+ * @param res 查询结果集
+ * @param fields 列属性
+ * @param num_fields 列数
+ */
 void ShowRealTimeDataWidget::RefreshData(TAOS_RES *res, TAOS_FIELD *fields, int num_fields) {
-    if (stopFlag)
+    if (stopFlag)//由于信号触发以后槽的执行可能有延迟，为了保留最后一次查询的数据设置了stopFlag
         return;
-    ui->tWidget_realtimeData->clearContents();
-    ui->tWidget_realtimeData->setRowCount(0);
-    int columnNum = ui->tWidget_realtimeData->columnCount(); //表格的最大列数
-    TAOS_ROW row;
-    //逐行解析
-    for (int i = 0; (row = taos_fetch_row(res)); ++i) {
-        ui->tWidget_realtimeData->insertRow(i);
-        char buf[512];
-        //获取字符串格式的数据
-        taos_print_row(buf, row, fields, num_fields);
-        QString rowstr(buf);
-        //将结果拆分为字符串列表
-        QStringList list = rowstr.split(" ", QString::SkipEmptyParts);
-        auto it = list.begin();
-        //向列中写入数据
-        for (int j = 0; j < columnNum; ++j) {
-            //时间戳格式
-            if (j == 0) {
-                //由于TDengine模式时间戳精度是毫秒，因此要除以1000
-                ui->tWidget_realtimeData->setItem(i, j, new QTableWidgetItem(QDateTime::fromTime_t(
-                                                      it->toLongLong() / 1000).toString("yyyy-MM-dd hh:mm:ss")));
-            } else {
-                ui->tWidget_realtimeData->setItem(i, j, new QTableWidgetItem(*it));
-            }
-            if (++it == list.end())
-                break;
-        }
-    }
+    ShowDataOnTableWidget(ui->tWidget_realtimeData, res, fields, num_fields);
 }
 
-
+/**
+ * @brief ShowRealTimeDataWidget::on_pBtn_stopQuery_clicked 停止查询
+ */
 void ShowRealTimeDataWidget::on_pBtn_stopQuery_clicked() {
     stopFlag = true;
     SaveLog("实时查询模块停止");
@@ -124,7 +105,6 @@ void ShowRealTimeDataWidget::on_pBtn_stopQuery_clicked() {
     ui->lineE_interval->setEnabled(true);
     ui->pBtn_startQuery->setEnabled(true);
     ui->pBtn_stopQuery->setEnabled(false);
-
 }
 
 void ShowRealTimeDataWidget::SetWidgetToQueryStatus() {

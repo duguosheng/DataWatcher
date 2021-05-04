@@ -47,7 +47,10 @@ void LogFile::CloseLogFile() {
     }
 }
 
-
+/**
+ * @brief LogFile::SaveLog 保存日志
+ * @param log 日志内容
+ */
 void LogFile::SaveLog(const QString &log) {
     if (OpenLogFile()) {
         QDateTime dt;

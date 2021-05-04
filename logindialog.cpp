@@ -26,7 +26,6 @@ LoginDialog::LoginDialog(QWidget *parent) :
 }
 
 LoginDialog::~LoginDialog() {
-    qDebug() << "bye";
     delete ui;
     ProgramExit();
 }
@@ -51,6 +50,11 @@ bool LoginDialog::ConnectTDengingServer() {
     return false;
 }
 
+/**
+ * @brief LoginDialog::on_pBtn_loginConfirm_clicked 确认登陆
+ * 如果用户勾选了记住密码，则登陆成功后保存用户信息
+ * 如果没有勾选，则清除用户信息
+ */
 void LoginDialog::on_pBtn_loginConfirm_clicked() {
     ui->label_errorMsg->setStyleSheet("color:rgb(65,105,225)");
     ui->label_errorMsg->setText(tr("正在登陆..."));
@@ -79,6 +83,9 @@ void LoginDialog::on_pBtn_loginCancel_clicked() {
     close();
 }
 
+/**
+ * @brief LoginDialog::ClearErrorMsg 用户重新输入时清除错误提示
+ */
 void LoginDialog::ClearErrorMsg() {
     ui->label_errorMsg->clear();
 }

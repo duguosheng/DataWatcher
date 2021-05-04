@@ -24,9 +24,6 @@ ShowAlertRuleDialog::~ShowAlertRuleDialog() {
 
 void ShowAlertRuleDialog::ReplyFinished(QNetworkReply *reply) {
     rules = reply->readAll();
-    //将接收到的JSON数据格式化后显示在textBrower
-    //QJsonDocument jsonDoc = QJsonDocument::fromJson(rules.toUtf8());
-    //QString fmtJsonStr = jsonDoc.toJson(QJsonDocument::Indented);
     ui->tBrow_alertRule->setText(rules.toUtf8());
     reply->deleteLater();
     //刷新后保持显示格式不变
@@ -37,6 +34,10 @@ void ShowAlertRuleDialog::on_pBtn_close_clicked() {
     deleteLater();
 }
 
+/**
+ * @brief ShowAlertRuleDialog::on_pBtn_refresh_clicked 重新加载
+ * 加载完成后将触发&QNetworkAccessManager::finished信号
+ */
 void ShowAlertRuleDialog::on_pBtn_refresh_clicked() {
     //重新加载
     manager->get(QNetworkRequest(QUrl("http://" +
@@ -45,6 +46,10 @@ void ShowAlertRuleDialog::on_pBtn_refresh_clicked() {
                                       + "/api/list-rule")));
 }
 
+/**
+ * @brief ShowAlertRuleDialog::on_pBtn_format_clicked 格式化显示JSON
+ * @param checked 是否启用格式化
+ */
 void ShowAlertRuleDialog::on_pBtn_format_clicked(bool checked) {
     if (checked) {
         QJsonDocument jsonDoc = QJsonDocument::fromJson(rules.toUtf8());

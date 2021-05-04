@@ -4,7 +4,7 @@
 
 GetRealTimeData::GetRealTimeData(QObject *parent) :
     QThread(parent),
-    tTaos(nullptr), tTSub(nullptr), res(nullptr) {
+    tTaos(nullptr), tTSub(nullptr), tRes(nullptr) {
     tTaos = ConnectDB(dbinfo);
 
 }
@@ -12,22 +12,20 @@ GetRealTimeData::GetRealTimeData(QObject *parent) :
 GetRealTimeData::GetRealTimeData(const QString &tablename, int ms, QObject *parent) :
     QThread(parent),
     tableName(tablename), interval(ms),
-    tTaos(nullptr), tTSub(nullptr), res(nullptr) {
+    tTaos(nullptr), tTSub(nullptr), tRes(nullptr) {
     tTaos = ConnectDB(dbinfo);
 
 }
 
 GetRealTimeData::~GetRealTimeData() {
-    qDebug() << "1";
+    if (tRes) {
+        taos_stop_query(tRes);
+        taos_free_result(tRes);
+    }
     if (isRunning()) {
         SaveLog("线程退出");
         exit();
         wait();
-    }
-    qDebug() << "2";
-    if (res) {
-        taos_stop_query(res);
-        taos_free_result(res);
     }
     if (tTSub) {
         taos_unsubscribe(tTSub, 0);
@@ -36,10 +34,19 @@ GetRealTimeData::~GetRealTimeData() {
         taos_close(tTaos);
 }
 
+
+/**
+ * @brief GetRealTimeData::SetTableName 设置所要查询的表名
+ * @param tbname
+ */
 void GetRealTimeData::SetTableName(const QString &tbname) {
     tableName = tbname;
 }
 
+/**
+ * @brief GetRealTimeData::SetInterval 设置查询周期，时间不宜过短
+ * @param ms 毫秒
+ */
 void GetRealTimeData::SetInterval(int ms) {
     interval = ms;
 }
@@ -58,6 +65,10 @@ void GetRealTimeData::run() {
     exec();  //开启事件循环，否则定时器无法触发
 }
 
+/**
+ * @brief GetRealTimeData::SubscibeTable 订阅数据库表
+ * @return 订阅是否成功
+ */
 bool GetRealTimeData::SubscibeTable() {
     if (!tTaos) {
         SaveLog("实时查询模块连接服务器失败");
@@ -82,6 +93,9 @@ bool GetRealTimeData::SubscibeTable() {
     return true;
 }
 
+/**
+ * @brief GetRealTimeData::Stop 停止查询，退出线程
+ */
 void GetRealTimeData::Stop() {
     if (tTSub) {
         //这里上锁是为了防止点击了暂停查询后tTSub无效，而此时又触发了定时器事件
@@ -92,6 +106,8 @@ void GetRealTimeData::Stop() {
         tsubMutex.unlock();
         SaveLog("取消订阅：" + tableName);
     }
+    if (tRes)
+        taos_free_result(tRes);
     if (isRunning()) {
         SaveLog("线程退出");
         exit();
@@ -99,20 +115,24 @@ void GetRealTimeData::Stop() {
     }
 }
 
+/**
+ * @brief GetRealTimeData::Consume 查询订阅更新
+ */
 void GetRealTimeData::Consume() {
     tsubMutex.lock();
     if (!tTSub)
         return;
-    res = taos_consume(tTSub);
+    tRes = taos_consume(tTSub);
     tsubMutex.unlock();
 
-    if (res == NULL) {
-        SaveLog("RealTimeDataWidget::RefreshData  查询出错");
+    if (tRes == nullptr || taos_errno(tRes) != 0) {
+        //这里不要使用taos_free_result，订阅查询只在最后才释放
+        SaveLog(QString("consume查询出错，错误原因：") + taos_errstr(tRes));
         return;
     }
-    TAOS_FIELD *fields = taos_fetch_fields(res); //获取每列的属性
-    int num_fields = taos_num_fields(res);
-    emit ConsumeOk(res, fields, num_fields);
+    TAOS_FIELD *fields = taos_fetch_fields(tRes); //获取每列的属性
+    int numFields = taos_num_fields(tRes);
+    emit ConsumeOk(tRes, fields, numFields);
 }
 
 

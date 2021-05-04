@@ -209,6 +209,9 @@ QLabel{
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
      <property name="lineWidth">
       <number>1</number>
      </property>
@@ -233,76 +236,6 @@ QLabel{
      <attribute name="horizontalHeaderCascadingSectionResizes">
       <bool>false</bool>
      </attribute>
-     <column>
-      <property name="text">
-       <string>时间</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>经度</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>纬度</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>液压系统油量</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>液压系统油温</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>支腿回路压力</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>支腿回路流量</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>支腿回路振动</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>起升回路压力</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>起升回路流量</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>起升回路油温</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>柴油机压力</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>柴油机油量</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>柴油机振动</string>
-      </property>
-     </column>
     </widget>
    </item>
   </layout>

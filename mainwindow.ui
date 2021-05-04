@@ -128,7 +128,6 @@ p, li { white-space: pre-wrap; }
      <string>软件设置(&amp;S)</string>
     </property>
     <addaction name="action_P"/>
-    <addaction name="action_O"/>
    </widget>
    <addaction name="menu_D"/>
    <addaction name="menu_A"/>
@@ -146,6 +145,8 @@ p, li { white-space: pre-wrap; }
     <bool>false</bool>
    </attribute>
    <addaction name="action_V"/>
+   <addaction name="action_SQL_E"/>
+   <addaction name="action_SQL_O"/>
    <addaction name="action_Grafana_G"/>
    <addaction name="separator"/>
    <addaction name="action_E"/>
@@ -153,12 +154,16 @@ p, li { white-space: pre-wrap; }
    <addaction name="action_AlertManager_M"/>
    <addaction name="separator"/>
    <addaction name="action_P"/>
+   <addaction name="separator"/>
+   <addaction name="action_L"/>
+   <addaction name="action_U"/>
+   <addaction name="action_C"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="action_V">
    <property name="icon">
     <iconset resource="resource.qrc">
-     <normaloff>:/image/images/viewdata.png</normaloff>:/image/images/viewdata.png</iconset>
+     <normaloff>:/image/images/data.png</normaloff>:/image/images/data.png</iconset>
    </property>
    <property name="text">
     <string>查看实时数据(&amp;V)</string>
@@ -167,7 +172,7 @@ p, li { white-space: pre-wrap; }
   <action name="action_V_2">
    <property name="icon">
     <iconset resource="resource.qrc">
-     <normaloff>:/image/images/viewrule.png</normaloff>:/image/images/viewrule.png</iconset>
+     <normaloff>:/image/images/seerules.png</normaloff>:/image/images/seerules.png</iconset>
    </property>
    <property name="text">
     <string>显示告警规则(&amp;V)</string>
@@ -176,7 +181,7 @@ p, li { white-space: pre-wrap; }
   <action name="action_E">
    <property name="icon">
     <iconset resource="resource.qrc">
-     <normaloff>:/image/images/setrule.png</normaloff>:/image/images/setrule.png</iconset>
+     <normaloff>:/image/images/editrule.png</normaloff>:/image/images/editrule.png</iconset>
    </property>
    <property name="text">
     <string>配置告警规则(&amp;E)</string>
@@ -201,16 +206,28 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_U">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/image/images/helpdoc.png</normaloff>:/image/images/helpdoc.png</iconset>
+   </property>
    <property name="text">
     <string>查看使用文档(&amp;U)</string>
    </property>
   </action>
   <action name="action_L">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/image/images/Log.png</normaloff>:/image/images/Log.png</iconset>
+   </property>
    <property name="text">
     <string>查看运行日志(&amp;L)</string>
    </property>
   </action>
   <action name="action_C">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/image/images/about.png</normaloff>:/image/images/about.png</iconset>
+   </property>
    <property name="text">
     <string>关于软件(&amp;C)</string>
    </property>
@@ -224,17 +241,20 @@ p, li { white-space: pre-wrap; }
     <string>偏好设置(&amp;P)</string>
    </property>
   </action>
-  <action name="action_O">
-   <property name="text">
-    <string>打开配置文件(&amp;O)</string>
-   </property>
-  </action>
   <action name="action_SQL_E">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/image/images/editsql.png</normaloff>:/image/images/editsql.png</iconset>
+   </property>
    <property name="text">
     <string>编辑SQL指令(&amp;E)</string>
    </property>
   </action>
   <action name="action_SQL_O">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/image/images/sqlfile.png</normaloff>:/image/images/sqlfile.png</iconset>
+   </property>
    <property name="text">
     <string>打开SQL文件(&amp;O)</string>
    </property>

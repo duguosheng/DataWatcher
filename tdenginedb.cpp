@@ -1,6 +1,8 @@
 #include "tdenginedb.h"
 #include "common.h"
 #include <QDebug>
+#include <QTableWidget>
+#include <QDateTime>
 
 
 //数据库连接句柄
@@ -20,7 +22,6 @@ void InitTaosBindArray();
  */
 TAOS *ConnectDB(const TDengineConnectInfo &dbconf) {
 //    InitTaosBindArray();
-
     return taos_connect(dbconf.ip.toStdString().c_str(),
                         dbconf.userName.toStdString().c_str(),
                         dbconf.passwd.toStdString().c_str(),
@@ -65,6 +66,9 @@ bool QueryDB(const QString &cmd) {
     return true;
 }
 
+/**
+ * @brief InitTaosBindArray 绑定参数格式
+ */
 void InitTaosBindArray() {
     params[0].buffer_type = TSDB_DATA_TYPE_TIMESTAMP;
     params[0].buffer_length = sizeof(craneData.time);
@@ -163,6 +167,11 @@ void InitTaosBindArray() {
     params[15].is_null = NULL;
 }
 
+/**
+ * @brief QueryDataFromCrane 查询超级表Crane中的数据
+ * @param tablename 表名
+ * @return
+ */
 bool QueryDataFromCrane(const QString &tablename) {
     if (!taos)
         return false;
@@ -179,3 +188,61 @@ bool QueryDataFromCrane(const QString &tablename) {
     return true;
 }
 
+/**
+ * @brief ParseRow 解析一行的数据
+ * @param row 一行数据
+ * @param fields 列属性
+ * @param numFields 列名
+ * @return 列数据的集合
+ */
+QStringList ParseRow(const TAOS_ROW &row, TAOS_FIELD *fields, int numFields) {
+    if (!row || !fields)
+        return QStringList();
+    char buf[512];
+    //获取字符串格式的数据
+    taos_print_row(buf, row, fields, numFields);
+    QString rowstr(buf);
+    //将结果拆分为字符串列表
+    QStringList list = rowstr.split(" ", QString::SkipEmptyParts);
+    return list;
+}
+
+/**
+ * @brief ShowDataOnTableWidget 在tablewidget上显示查询结果
+ * @param tableWidget 表格视图
+ * @param res 查询结果集
+ * @param fields 列属性
+ * @param numFields 列数
+ */
+void ShowDataOnTableWidget(QTableWidget *tableWidget, TAOS_RES *res, TAOS_FIELD *fields, int numFields) {
+    //删除所有行，否则后续的insertRow将导致行越来越多
+    tableWidget->setRowCount(0);
+    //设置表格列数
+    tableWidget->setColumnCount(numFields);
+    //设置表头
+    for (int i = 0; i < numFields; ++i) {
+        QTableWidgetItem *headerH = new QTableWidgetItem(fields[i].name);
+        tableWidget->setHorizontalHeaderItem(i, headerH);
+    }
+    TAOS_ROW row;
+    //逐行解析
+    for (int i = 0; (row = taos_fetch_row(res)); ++i) {
+        tableWidget->insertRow(i);
+        //获取解析结果
+        QStringList list = ParseRow(row, fields, numFields);
+        auto it = list.begin();
+        //向列中写入数据
+        for (int j = 0; j < numFields; ++j) {
+            //时间戳格式
+            if (fields[j].type == TSDB_DATA_TYPE_TIMESTAMP) {
+                //由于TDengine模式时间戳精度是毫秒，因此要除以1000
+                tableWidget->setItem(i, j, new QTableWidgetItem(QDateTime::fromTime_t(
+                                         it->toLongLong() / 1000).toString("yyyy-MM-dd hh:mm:ss")));
+            } else {
+                tableWidget->setItem(i, j, new QTableWidgetItem(*it));
+            }
+            if (++it == list.end())
+                break;
+        }
+    }
+}

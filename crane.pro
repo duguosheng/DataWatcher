@@ -11,7 +11,10 @@ CONFIG += c++11
 
 SOURCES += \
     common.cpp \
+    execsqlthread.cpp \
+    execsqlwidget.cpp \
     getrealtimedata.cpp \
+    highlighter.cpp \
     logfile.cpp \
     logindialog.cpp \
     main.cpp \
@@ -25,7 +28,10 @@ SOURCES += \
 
 HEADERS += \
     common.h \
+    execsqlthread.h \
+    execsqlwidget.h \
     getrealtimedata.h \
+    highlighter.h \
     logfile.h \
     logindialog.h \
     mainwindow.h \
@@ -37,6 +43,7 @@ HEADERS += \
     tdenginedb.h
 
 FORMS += \
+    execsqlwidget.ui \
     logindialog.ui \
     mainwindow.ui \
     setalertrulewidget.ui \

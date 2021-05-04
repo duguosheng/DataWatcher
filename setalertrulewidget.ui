@@ -220,7 +220,7 @@ QTextBrowser{
        <item>
         <widget class="QComboBox" name="coBox_timeFrame">
          <property name="currentText">
-          <string>秒</string>
+          <string>微秒</string>
          </property>
          <item>
           <property name="text">
@@ -714,7 +714,7 @@ p, li { white-space: pre-wrap; }
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="pBtn_toJson">
        <property name="text">
         <string>以JSON格式显示</string>
        </property>
@@ -734,7 +734,7 @@ p, li { white-space: pre-wrap; }
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="pBtn__addRule">
        <property name="text">
         <string>添加规则到AlertManager</string>
        </property>
