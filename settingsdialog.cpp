@@ -23,8 +23,10 @@ SettingsDialog::~SettingsDialog() {
  */
 void SettingsDialog::on_pBtn_LogDir_clicked() {
     QString dir = QFileDialog::getExistingDirectory();
-    setting->setValue("System/logDir", dir);
-    ui->lineE_logDir->setText(dir);
+    if (!dir.isEmpty()) {
+        setting->setValue("System/logDir", dir);
+        ui->lineE_logDir->setText(dir);
+    }
 }
 
 /**
