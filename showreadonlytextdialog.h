@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QReadWriteLock>
 #include <QFile>
+#include <QFileSystemWatcher>
 
 namespace Ui {
 class ShowReadOnlyTextDialog;
@@ -18,12 +19,12 @@ public:
     void SetReadLock(QReadWriteLock *rwlock);
 
 private slots:
-    void on_pBtn_refresh_clicked();
-
-    void on_pBtn_close_clicked();
+    void RefreshText();
+    void AutoScroll();
 
 private:
     Ui::ShowReadOnlyTextDialog *ui;
+    QFileSystemWatcher fileWatcher;
     QString fileName;
     QFile rfile;
     const char *codeC;

@@ -18,7 +18,18 @@ ShowReadOnlyTextDialog::ShowReadOnlyTextDialog(const QString &filename, const QS
     rLock(nullptr) {
     ui->setupUi(this);
     setWindowTitle(dlgTitle);
-    on_pBtn_refresh_clicked();  //立即刷新一次
+    RefreshText();//立即刷新一次
+
+    connect(&fileWatcher, &QFileSystemWatcher::fileChanged,
+            this, &ShowReadOnlyTextDialog::RefreshText);
+    connect(ui->tBrow_showText, &QTextBrowser::textChanged,
+            this, &ShowReadOnlyTextDialog::AutoScroll);
+
+    if (QFile::exists(fileName)) {
+        fileWatcher.addPath(fileName);
+    } else {
+        SaveLog("文件" + fileName + "不存在，无法添加到文件监控器");
+    }
 }
 
 ShowReadOnlyTextDialog::~ShowReadOnlyTextDialog() {
@@ -33,11 +44,12 @@ void ShowReadOnlyTextDialog::SetReadLock(QReadWriteLock *rwlock) {
     rLock = rwlock;
 }
 
-void ShowReadOnlyTextDialog::on_pBtn_refresh_clicked() {
+void ShowReadOnlyTextDialog::RefreshText() {
     if (rLock)
         rLock->lockForRead();
 
     if (rfile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+//        if(rfile.)
         QTextStream readStream(&rfile);
         //如果用户没有设置编码则保持默认
         if (strcmp(codeC, "default"))
@@ -53,9 +65,13 @@ void ShowReadOnlyTextDialog::on_pBtn_refresh_clicked() {
 
         SaveLog("读取文件" + fileName + "失败");
     }
-
 }
 
-void ShowReadOnlyTextDialog::on_pBtn_close_clicked() {
-    close();
+/**
+ * @brief ShowReadOnlyTextDialog::AutoScroll 自动显示最新内容
+ */
+void ShowReadOnlyTextDialog::AutoScroll() {
+    QTextCursor cursor = ui->tBrow_showText->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    ui->tBrow_showText->setTextCursor(cursor);
 }
