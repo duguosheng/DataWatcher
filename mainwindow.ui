@@ -20,10 +20,7 @@
    <string>Crane--汽车起重机健康状态监测</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMainWindow{
-/*背景图片*/
-	/*background-image: url(:/image/images/sycrane.jpg);*/
-}</string>
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -128,6 +125,7 @@ p, li { white-space: pre-wrap; }
      <string>软件设置(&amp;S)</string>
     </property>
     <addaction name="action_P"/>
+    <addaction name="action_C_2"/>
    </widget>
    <addaction name="menu_D"/>
    <addaction name="menu_A"/>
@@ -154,6 +152,7 @@ p, li { white-space: pre-wrap; }
    <addaction name="action_AlertManager_M"/>
    <addaction name="separator"/>
    <addaction name="action_P"/>
+   <addaction name="action_C_2"/>
    <addaction name="separator"/>
    <addaction name="action_L"/>
    <addaction name="action_U"/>
@@ -257,6 +256,15 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>打开SQL文件(&amp;O)</string>
+   </property>
+  </action>
+  <action name="action_C_2">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/image/images/close.png</normaloff>:/image/images/close.png</iconset>
+   </property>
+   <property name="text">
+    <string>关闭主界面(&amp;C)</string>
    </property>
   </action>
  </widget>

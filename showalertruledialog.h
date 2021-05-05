@@ -19,14 +19,21 @@ public:
 
 private:
     Ui::ShowAlertRuleDialog *ui;
-    QNetworkAccessManager *manager;
+    QNetworkAccessManager *getRuleManager;
+    QNetworkAccessManager *delRuleManager;
     QString rules;
+    QString delRuleName;
+    QStringList ruleNames;
+    void ExtractRuleNames();
 
 private slots:
-    void ReplyFinished(QNetworkReply *reply);
+    void GetReplyFinished(QNetworkReply *reply);
+    void DelReplyFinished(QNetworkReply *reply);
     void on_pBtn_close_clicked();
     void on_pBtn_refresh_clicked();
     void on_pBtn_format_clicked(bool checked);
+    void on_pBtn_deleteRule_clicked(bool checked);
+    void on_pBtn_confirmDelete_clicked();
 };
 
 #endif // SHOWALERTRULEDIALOG_H

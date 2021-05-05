@@ -27,10 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() {
-    if (centralWidget()) {
-        centralWidget()->close();
-        centralWidget()->deleteLater();
-    }
+    ClearCentral();
     delete ui;
     ProgramExit();
 }
@@ -49,10 +46,7 @@ void MainWindow::on_action_P_triggered() {
  * @brief MainWindow::on_action_V_triggered 主窗口打开实时监控面板
  */
 void MainWindow::on_action_V_triggered() {
-    if (centralWidget()) {
-        centralWidget()->close();
-        centralWidget()->deleteLater();
-    }
+    ClearCentral();
     ShowRealTimeDataWidget *dataWidget = new ShowRealTimeDataWidget(this);
     setCentralWidget(dataWidget);
 }
@@ -61,6 +55,7 @@ void MainWindow::on_action_V_triggered() {
  * @brief MainWindow::on_action_Grafana_G_triggered 默认浏览器打开Grafana
  */
 void MainWindow::on_action_Grafana_G_triggered() {
+    SaveLog("网页打开Grafana");
     QDesktopServices::openUrl(QUrl("http://" +
                                    setting->value("Grafana/ipaddr", "1.15.111.120").toString() + ":" +
                                    setting->value("Grafana/port", "3000").toString()));
@@ -70,6 +65,7 @@ void MainWindow::on_action_Grafana_G_triggered() {
  * @brief MainWindow::on_action_AlertManager_M_triggered 默认浏览器打开AlertManager
  */
 void MainWindow::on_action_AlertManager_M_triggered() {
+    SaveLog("网页打开AlertManager");
     QDesktopServices::openUrl(QUrl("http://" +
                                    setting->value("AlertManager/ipaddr", "1.15.111.120").toString() + ":" +
                                    setting->value("AlertManager/alertport", "9093").toString()));
@@ -87,10 +83,7 @@ void MainWindow::on_action_V_2_triggered() {
  * @brief MainWindow::on_action_E_triggered 主窗口打开报警规则设置器
  */
 void MainWindow::on_action_E_triggered() {
-    if (centralWidget()) {
-        centralWidget()->close();
-        centralWidget()->deleteLater();
-    }
+    ClearCentral();
     SetAlertRuleWidget *setRuleWidget = new SetAlertRuleWidget(this);
     setCentralWidget(setRuleWidget);
 }
@@ -126,10 +119,7 @@ void MainWindow::on_action_C_triggered() {
  * @brief MainWindow::on_action_SQL_E_triggered 主界面打开编辑SQL面板
  */
 void MainWindow::on_action_SQL_E_triggered() {
-    if (centralWidget()) {
-        centralWidget()->close();
-        centralWidget()->deleteLater();
-    }
+    ClearCentral();
     ExecSqlWidget *sqlWidget = new ExecSqlWidget(this);
     setCentralWidget(sqlWidget);
 }
@@ -142,12 +132,27 @@ void MainWindow::on_action_SQL_O_triggered() {
     if (sqlFileName.isEmpty())
         return;
 
-    if (centralWidget()) {
-        centralWidget()->close();
-        centralWidget()->deleteLater();
-    }
+    ClearCentral();
 
     ExecSqlWidget *sqlWidget = new ExecSqlWidget(this,
             ExecSqlWidget::OpenSqlFileMode, sqlFileName);
     setCentralWidget(sqlWidget);
+}
+
+/**
+ * @brief MainWindow::on_action_C_2_triggered 清空主界面
+ */
+void MainWindow::on_action_C_2_triggered() {
+    ClearCentral();
+    setStyleSheet("QMainWindow{background-image: url(:/image/images/mainBackground.png);"
+                  "background-repeat: no-repeat;"
+                  "background-position: center;}");
+}
+
+void MainWindow::ClearCentral() {
+    if (centralWidget()) {
+        centralWidget()->close();
+        centralWidget()->deleteLater();
+    }
+    setStyleSheet("");
 }

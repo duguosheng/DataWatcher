@@ -31,7 +31,10 @@ private slots:
 
     void on_action_SQL_O_triggered();
 
+    void on_action_C_2_triggered();
+
 private:
     Ui::MainWindow *ui;
+    void ClearCentral();
 };
 #endif // MAINWINDOW_H

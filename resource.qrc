@@ -17,5 +17,7 @@
         <file>images/seerules.png</file>
         <file>images/setting.png</file>
         <file>images/sqlfile.png</file>
+        <file>images/mainBackground.png</file>
+        <file>images/close.png</file>
     </qresource>
 </RCC>

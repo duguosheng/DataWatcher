@@ -27,6 +27,8 @@ SetAlertRuleWidget::SetAlertRuleWidget(QWidget *parent) :
     ui->setupUi(this);
     InitDialog();
     connect(manager, &QNetworkAccessManager::finished, this, &SetAlertRuleWidget::ReplyFinished);
+    //初始显示单位为秒
+    ui->coBox_timeFrame->setCurrentIndex(2);
 }
 
 SetAlertRuleWidget::~SetAlertRuleWidget() {
@@ -131,6 +133,7 @@ void SetAlertRuleWidget::ReplyFinished(QNetworkReply *reply) {
         QMessageBox::warning(this, "通知", "向服务器配置告警规则失败\n请检查您的网络连接");
         SaveLog("向服务器配置告警规则失败");
     }
+    manager->clearAccessCache();
     reply->deleteLater();
 }
 
@@ -238,7 +241,6 @@ void SetAlertRuleWidget::on_pBtn__addRule_clicked() {
                                   + "/api/update-rule"));
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
         manager->post(request, ruleBtArray);
-        manager->clearAccessCache();
     } else {
         QMessageBox::warning(this, "格式错误", "配置生成错误\n请仔细检查是否有项目为空或填错");
     }

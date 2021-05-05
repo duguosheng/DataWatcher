@@ -109,6 +109,7 @@ void ExecSqlWidget::SaveResults(TAOS_RES *res, TAOS_FIELD *fields, int numFields
             out << endl;
         }
         saveDataFile.close();
+        SaveLog("sql执行结果存至" + saveDataFileName);
     } else {
         SaveLog("打开文件" + saveDataFileName + "失败");
     }
@@ -167,10 +168,11 @@ void ExecSqlWidget::on_pBtn_saveSqlScript_clicked() {
     if (workmode == EditSqlMode) {
         saveSqlFileName = QFileDialog::getSaveFileName(
                               this, "SQL脚本另存为", "D:", tr("SQL文件(*.sql)"));
-    }
 
-    if (saveSqlFileName.isEmpty())
-        return;
+        if (saveSqlFileName.isEmpty())
+            return;
+        SaveLog("SQL脚本另存为" + saveSqlFileName);
+    }
 
     QFile saveSqlFile(saveSqlFileName);
     if (saveSqlFile.open(QIODevice::WriteOnly | QIODevice::Text)) {

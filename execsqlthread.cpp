@@ -46,6 +46,7 @@ void ExecSqlThread::run() {
         emit ExecSqlFail();
         return;
     }
+    SaveLog("子线程已启动，执行sql：\n" + sql);
     tRes = taos_query(tTaos, sql.toStdString().c_str());
     if (taos_errno(tRes) != 0) {
         SaveLog("sql: " + sql + "执行失败，原因是:" + taos_errstr(tRes));
