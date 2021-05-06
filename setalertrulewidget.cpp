@@ -1,6 +1,7 @@
 #include "setalertrulewidget.h"
 #include "ui_setalertrulewidget.h"
 #include "common.h"
+#include "tdenginedb.h"
 #include <QJsonObject>
 #include <QMessageBox>
 #include <QNetworkAccessManager>
@@ -10,11 +11,6 @@
 
 //一些静态字符串常量，作用是从coBox的索引映射到这些字符串
 const QString SetAlertRuleWidget::valueType[] = {"AVG", "MAX", "MIN"};
-const QString SetAlertRuleWidget::craneParams[] = {"h_temperature", "h_oilvolume",
-                                                   "h_pressure_1", "h_flow_1", "h_vibration_1",
-                                                   "h_pressure_2", "h_flow_2", "h_vibration_2",
-                                                   "d_pressure", "d_temperature", "d_vibration"
-                                                  };
 const QString SetAlertRuleWidget::compareType[] = {">", "<"};
 const QString SetAlertRuleWidget::unitPeriod[] = {"s", "m", "h", "d"};
 const QString SetAlertRuleWidget::unitFor[] = {"s", "m", "h", "d"};
@@ -86,7 +82,7 @@ bool SetAlertRuleWidget::GenerateRule() {
     //读取变量
     if (ui->cBox_var1->isChecked()) {
         sql += valueType[ui->coBox_valueType1->currentIndex()] + "("
-               + craneParams[ui->coBox_param1->currentIndex()] + ")"
+               + ui->coBox_param1->currentText() + ")"
                + " AS " + ui->lineE_alias1->text();
         expr = ui->lineE_alias1->text() + " "
                + compareType[ui->coBox_compare1->currentIndex()] + " "
@@ -94,7 +90,7 @@ bool SetAlertRuleWidget::GenerateRule() {
         // 只有在变量一设置了之后才能选定变量二
         if (ui->cBox_var2->isChecked()) {
             sql += ", " + valueType[ui->coBox_valueType2->currentIndex()] + "("
-                   + craneParams[ui->coBox_param2->currentIndex()] + ")"
+                   + ui->coBox_param2->currentText() + ")"
                    + " AS " + ui->lineE_alias2->text();
             expr += " && " + ui->lineE_alias2->text() + " "
                     + compareType[ui->coBox_compare2->currentIndex()] + " "
@@ -102,7 +98,7 @@ bool SetAlertRuleWidget::GenerateRule() {
             // 只有在变量二设置了之后才能选定变量三
             if (ui->cBox_var3->isChecked()) {
                 sql += ", " + valueType[ui->coBox_valueType3->currentIndex()] + "("
-                       + craneParams[ui->coBox_param3->currentIndex()] + ")"
+                       + ui->coBox_param3->currentText() + ")"
                        + " AS " + ui->lineE_alias3->text();
                 expr += " && " + ui->lineE_alias3->text() + " "
                         + compareType[ui->coBox_compare3->currentIndex()] + " "
@@ -154,6 +150,18 @@ void SetAlertRuleWidget::InitDialog() {
     ui->lineE_threshold1->setValidator(new QDoubleValidator(0, 9999999, 5, this));
     ui->lineE_threshold2->setValidator(new QDoubleValidator(0, 9999999, 5, this));
     ui->lineE_threshold3->setValidator(new QDoubleValidator(0, 9999999, 5, this));
+
+    QStringList columnNamesList;
+    //解析超级表格式
+    if (GetColumnNames(setting->value("TDengine/dbname", "health_status").toString(),
+                       setting->value("TDengine/sTable", "crane").toString(),
+                       columnNamesList, true) == false) {
+        SaveLog("解析超级表格式失败");
+        return;
+    }
+    ui->coBox_param1->insertItems(0, columnNamesList);
+    ui->coBox_param2->insertItems(0, columnNamesList);
+    ui->coBox_param3->insertItems(0, columnNamesList);
 }
 
 void SetAlertRuleWidget::on_cBox_var1_stateChanged(int state) {

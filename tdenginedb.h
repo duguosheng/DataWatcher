@@ -45,6 +45,13 @@ extern "C" {
         QString dbName;     //数据库名
     };
 
+    //描述一个超级表，执行describe stable后的结果样式
+    struct DescribeStable {
+        QString field;
+        QString type;
+        QString length;
+        QString note;
+    };
 }
 
 extern TAOS *taos;
@@ -53,7 +60,8 @@ extern struct truck_crane_data craneData;
 extern TAOS_BIND params[16];
 TAOS *ConnectDB(const TDengineConnectInfo &dbconf);
 bool QueryDB(const QString &cmd);
-bool QueryDataFromCrane(const QString &tablename);
+bool GetColumnNames(const QString &dbname, const QString &stable, QStringList &list, bool delTimeStampAndTags = false);
+//bool QueryDataFromCrane(const QString &tablename);
 QStringList ParseRow(const TAOS_ROW &row, TAOS_FIELD *fields, int numFields);
 class QTableWidget;
 void ShowDataOnTableWidget(QTableWidget *tableWidget, TAOS_RES *res, TAOS_FIELD *fields, int numFields);

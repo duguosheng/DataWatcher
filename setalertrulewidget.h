@@ -36,7 +36,7 @@ private:
 
     //将界面中的CoBox的值映射到字符串常量
     static const QString valueType[];
-    static const QString craneParams[];
+//    static const QString craneParams[];
     static const QString compareType[];
     static const QString unitPeriod[];
     static const QString unitFor[];

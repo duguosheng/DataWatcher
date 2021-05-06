@@ -297,63 +297,7 @@ QTextBrowser{
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="coBox_param1">
-         <item>
-          <property name="text">
-           <string>液压油温</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>液压油量</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>支腿回路压力</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>支腿回路流量</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>支腿回路振动</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>起升回路压力</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>起升回路流量</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>起升回路振动</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>柴油机气缸压力</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>柴油机油温</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>柴油机振动</string>
-          </property>
-         </item>
-        </widget>
+        <widget class="QComboBox" name="coBox_param1"/>
        </item>
        <item>
         <widget class="QLabel" name="label_alias1">
@@ -427,63 +371,7 @@ QTextBrowser{
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="coBox_param2">
-         <item>
-          <property name="text">
-           <string>液压油温</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>液压油量</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>支腿回路压力</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>支腿回路流量</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>支腿回路振动</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>起升回路压力</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>起升回路流量</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>起升回路振动</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>柴油机气缸压力</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>柴油机油温</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>柴油机振动</string>
-          </property>
-         </item>
-        </widget>
+        <widget class="QComboBox" name="coBox_param2"/>
        </item>
        <item>
         <widget class="QLabel" name="label_alias2">
@@ -553,63 +441,7 @@ QTextBrowser{
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="coBox_param3">
-         <item>
-          <property name="text">
-           <string>液压油温</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>液压油量</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>支腿回路压力</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>支腿回路流量</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>支腿回路振动</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>起升回路压力</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>起升回路流量</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>起升回路振动</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>柴油机气缸压力</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>柴油机油温</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>柴油机振动</string>
-          </property>
-         </item>
-        </widget>
+        <widget class="QComboBox" name="coBox_param3"/>
        </item>
        <item>
         <widget class="QLabel" name="label_alias3">
